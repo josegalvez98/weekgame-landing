@@ -128,6 +128,7 @@ footer p+p{margin-top:8px}
         <button type="submit" data-t="btn"></button>
       </div>
       <input type="hidden" name="lang" value="es">
+      <input type="hidden" name="de" value="">
       <input type="hidden" name="_subject" value="WeekQuest: nuevo apuntado">
       <label class="gotcha" aria-hidden="true">No rellenar <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label>
       <p class="note" data-t="note"></p>
@@ -180,6 +181,7 @@ footer p+p{margin-top:8px}
           <button type="submit" data-t="btn"></button>
         </div>
         <input type="hidden" name="lang" value="es">
+        <input type="hidden" name="de" value="">
         <input type="hidden" name="_subject" value="WeekQuest: nuevo apuntado">
         <label class="gotcha" aria-hidden="true">No rellenar <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label>
         <p class="note" data-t="note"></p>
@@ -294,6 +296,12 @@ document.querySelector('.lang').addEventListener('click', (e) => {
   const b = e.target.closest('[data-lang]'); if (b) aplicar(b.dataset.lang);
 });
 aplicar(lang);
+
+// --- Canal de origen: ?de=ig, ?de=tiktok, ?de=reddit, ?de=amigos… llega con cada correo de Formspree ---
+try {
+  const de = (new URLSearchParams(location.search).get('de') || '').slice(0, 40);
+  document.querySelectorAll('input[name=de]').forEach((el) => { el.value = de; });
+} catch {}
 
 // --- Envío a Formspree sin salir de la página; si falla el JS, el formulario envía normal ---
 document.querySelectorAll('form.wait').forEach((f) => {

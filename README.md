@@ -24,7 +24,11 @@ con formulario de email en Formspree y capturas del prototipo. Se publica en Clo
 
 Editar `index.html`, `git commit`, `git push`. Cloudflare tarda un minuto en republicar.
 
-## Enlaces para los posts
+## Enlaces por canal
+
+El parámetro `?de=` marca de dónde viene cada apuntado y llega con el correo de Formspree (campo `de`).
+Usar uno por canal: `?de=ig`, `?de=tiktok`, `?de=reddit`, `?de=amigos`. Se combina con el idioma: `?lang=en&de=reddit`.
+
 
 - Español: `https://weekquest.jose98vk.workers.dev/?lang=es`
 - Inglés: `https://weekquest.jose98vk.workers.dev/?lang=en`
