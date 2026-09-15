@@ -1,7 +1,7 @@
 # WeekQuest, landing de la lista de espera
 
 Una sola página estática (`index.html`), bilingüe (español / inglés con selector y `?lang=es` / `?lang=en`),
-con formulario de email en Formspree y capturas del prototipo. Se publica en Cloudflare Pages desde este repositorio.
+con formulario de email en Formspree y capturas del prototipo. Se publica en Cloudflare (Workers & Pages) desde este repositorio: https://weekquest.jose98vk.workers.dev/
 
 ## Qué hay
 
@@ -17,8 +17,8 @@ con formulario de email en Formspree y capturas del prototipo. Se publica en Clo
 2. **GitHub**: crear el repositorio público `weekquest-landing` vacío y subir esta carpeta.
 3. **Cloudflare Pages**: dash.cloudflare.com → Workers & Pages → Create → Pages → Connect to Git →
    elegir el repositorio. Framework preset: *None*; build command vacío; output directory `/`.
-   Da una URL `*.pages.dev` con HTTPS. Cada `git push` republica sola.
-4. **Analítica**: en el proyecto de Pages → Metrics → Enable Web Analytics (sin cookies; no hace falta tocar el HTML).
+   Cloudflare lo crea como Worker con ficheros estáticos: `https://weekquest.jose98vk.workers.dev/`. Cada `git push` republica sola.
+4. **Analítica**: Cloudflare Web Analytics, con el snippet del final de `index.html` (Analytics & Logs → Web Analytics → Add a site).
 
 ## Cambios después
 
@@ -26,5 +26,5 @@ Editar `index.html`, `git commit`, `git push`. Cloudflare tarda un minuto en rep
 
 ## Enlaces para los posts
 
-- Español: `https://<proyecto>.pages.dev/?lang=es`
-- Inglés: `https://<proyecto>.pages.dev/?lang=en`
+- Español: `https://weekquest.jose98vk.workers.dev/?lang=es`
+- Inglés: `https://weekquest.jose98vk.workers.dev/?lang=en`
