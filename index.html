@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WeekQuest</title>
+<meta name="description" content="Tu entrenamiento, como un juego de rol por semanas. Objetivos propios o plantillas, sin rachas. Lista de espera abierta.">
+<meta property="og:title" content="WeekQuest">
+<meta property="og:description" content="Tu entrenamiento, como un juego de rol por semanas. Sin rachas, sin castigos, sin brillos.">
+<meta property="og:image" content="capturas/semana.png">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#F2F2EF">
+<link rel="icon" href="icono.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap">
+<style>
+/* WeekQuest, landing de la lista de espera. Misma identidad que el prototipo, tema Cobalto:
+   cobalto para lo que avanza, grafito para el rango, esquinas achaflanadas solo en lo que se toca. */
+:root{
+  --bg:#F2F2EF; --sur:#FBFBF9; --sur-2:#FFFFFF; --deep:#E6E6E1;
+  --line:#D3D3CC; --line-2:#BDBDB4;
+  --vd:#2C55C9; --vd-lit:#2447AD; --vd-dim:#C5D0F0; --vd-ghost:rgba(44,85,201,.11);
+  --br:#4A4E56; --br-lit:#33363D;
+  --txt:#1B1D21; --txt-2:#3C3F45; --txt-3:#6A6E75; --txt-4:#8F939A;
+  --bad:#B4463A; --on-vd:#F4F7FF;
+  --cut:polygon(9px 0,100% 0,100% calc(100% - 9px),calc(100% - 9px) 100%,0 100%,0 9px);
+  --cut-lg:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px);
+  --disp:Marcellus,'Trajan Pro',Georgia,serif;
+  --sans:'Alegreya Sans','Gill Sans','Segoe UI',system-ui,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--txt);font:400 19px/1.5 var(--sans);-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:var(--vd)}
+h1,h2,h3{font-family:var(--disp);font-weight:400;margin:0;text-wrap:balance;line-height:1.15}
+p{margin:0}
+button,input{font:inherit}
+:focus-visible{outline:2px solid var(--vd);outline-offset:3px}
+
+.wrap{max-width:1040px;margin:0 auto;padding-inline:20px}
+.narrow{max-width:640px}
+
+/* Cabecera: marca y cambio de idioma */
+header.top{display:flex;align-items:center;justify-content:space-between;padding-block:22px 8px}
+.brand{font-family:var(--disp);font-size:26px;letter-spacing:.01em;color:var(--txt);text-decoration:none}
+.brand b{font-weight:400;color:var(--vd)}
+.lang{display:flex;gap:2px;border:1px solid var(--line);background:var(--sur);padding:2px}
+.lang button{border:0;background:none;padding:4px 10px;font-size:15px;color:var(--txt-3);cursor:pointer}
+.lang button.on{background:var(--vd);color:var(--on-vd)}
+
+/* Portada: tesis y formulario */
+.hero{padding-block:56px 40px}
+.hero .kicker{font-size:16px;color:var(--txt-3);margin-bottom:18px}
+.hero h1{font-size:clamp(34px,6vw,54px);letter-spacing:-.005em}
+.hero .lead{font-size:clamp(19px,2.3vw,22px);color:var(--txt-2);margin-top:22px;max-width:36em}
+
+/* Formulario: un email, nada más */
+form.wait{margin-top:34px}
+form.wait label{display:block;font-size:16px;color:var(--txt-3);margin-bottom:8px}
+form.wait .row{display:flex;flex-wrap:wrap;gap:10px}
+form.wait input[type=email]{flex:1 1 240px;min-width:0;padding:13px 16px;border:1px solid var(--line-2);background:var(--sur-2);color:var(--txt);border-radius:0}
+form.wait input[type=email]::placeholder{color:var(--txt-4)}
+form.wait button{flex:0 0 auto;padding:13px 26px;border:0;background:var(--vd);color:var(--on-vd);clip-path:var(--cut);cursor:pointer;font-weight:500}
+form.wait button:hover{background:var(--vd-lit)}
+form.wait button[disabled]{opacity:.6;cursor:default}
+form.wait .note{font-size:15px;color:var(--txt-3);margin-top:12px}
+form.wait .msg{margin-top:12px;font-size:17px;display:none}
+form.wait .msg.ok{display:block;color:var(--vd-lit)}
+form.wait .msg.bad{display:block;color:var(--bad)}
+.gotcha{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+
+/* Ornamento de línea con rombo, como en el prototipo */
+.orn{display:flex;align-items:center;gap:14px;color:var(--line-2);margin-block:48px}
+.orn::before,.orn::after{content:"";flex:1;height:1px;background:var(--line)}
+.orn i{width:8px;height:8px;background:var(--line-2);transform:rotate(45deg)}
+
+/* Tres pantallas, tres frases */
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:36px 28px}
+.shot{border:1px solid var(--line);background:var(--sur);clip-path:var(--cut-lg);padding:10px 10px 0;aspect-ratio:390/620;overflow:hidden}
+.shot img{width:100%;object-fit:cover;object-position:top;height:100%}
+.three h2{font-size:26px;margin-top:20px}
+.three p{color:var(--txt-2);margin-top:10px;max-width:30em}
+@media (max-width:760px){
+  .three{grid-template-columns:1fr;gap:44px}
+  .shot{max-width:390px;margin-inline:auto}
+}
+
+/* Lo que ya está decidido del producto */
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:22px 32px;margin-top:40px}
+.facts h3{font-size:21px}
+.facts p{color:var(--txt-2);margin-top:6px;font-size:18px}
+
+/* Cierre y pie */
+.again{background:var(--sur);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding-block:44px;margin-top:56px}
+.again h2{font-size:30px}
+footer{padding-block:32px 48px;font-size:15px;color:var(--txt-3)}
+footer p+p{margin-top:8px}
+
+@media (prefers-reduced-motion:no-preference){
+  form.wait button{transition:background .15s}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="./">Week<b>Quest</b></a>
+    <div class="lang" role="group" aria-label="Idioma / Language">
+      <button type="button" data-lang="es">Español</button>
+      <button type="button" data-lang="en">English</button>
+    </div>
+  </header>
+
+  <!-- Portada -->
+  <section class="hero narrow" style="margin-inline:0">
+    <p class="kicker" data-t="kicker"></p>
+    <h1 data-t="h1"></h1>
+    <p class="lead" data-t="lead"></p>
+
+    <form class="wait" id="f1" action="https://formspree.io/f/xdeknkzd" method="POST">
+      <label for="email1" data-t="label"></label>
+      <div class="row">
+        <input type="email" id="email1" name="email" required autocomplete="email" data-ph="ph">
+        <button type="submit" data-t="btn"></button>
+      </div>
+      <input type="hidden" name="lang" value="es">
+      <input type="hidden" name="_subject" value="WeekQuest: nuevo apuntado">
+      <label class="gotcha" aria-hidden="true">No rellenar <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label>
+      <p class="note" data-t="note"></p>
+      <p class="msg" role="status"></p>
+    </form>
+  </section>
+
+  <div class="orn" aria-hidden="true"><i></i></div>
+
+  <!-- Tres pantallas -->
+  <section class="three">
+    <article>
+      <div class="shot"><img src="capturas/semana.png" width="780" height="1688" alt="" data-alt="alt1"></div>
+      <h2 data-t="t1"></h2>
+      <p data-t="p1"></p>
+    </article>
+    <article>
+      <div class="shot"><img src="capturas/personaje.png" width="780" height="1688" alt="" data-alt="alt2" loading="lazy"></div>
+      <h2 data-t="t2"></h2>
+      <p data-t="p2"></p>
+    </article>
+    <article>
+      <div class="shot"><img src="capturas/logros.png" width="780" height="1688" alt="" data-alt="alt3" loading="lazy"></div>
+      <h2 data-t="t3"></h2>
+      <p data-t="p3"></p>
+    </article>
+  </section>
+
+  <div class="orn" aria-hidden="true"><i></i></div>
+
+  <!-- Decidido -->
+  <section class="facts">
+    <div><h3 data-t="f1t"></h3><p data-t="f1p"></p></div>
+    <div><h3 data-t="f2t"></h3><p data-t="f2p"></p></div>
+    <div><h3 data-t="f3t"></h3><p data-t="f3p"></p></div>
+    <div><h3 data-t="f4t"></h3><p data-t="f4p"></p></div>
+  </section>
+</div>
+
+<!-- Cierre -->
+<section class="again">
+  <div class="wrap">
+    <div class="narrow" style="margin-inline:0">
+      <h2 data-t="againt"></h2>
+      <p class="lead" style="color:var(--txt-2);margin-top:12px" data-t="againp"></p>
+      <form class="wait" id="f2" action="https://formspree.io/f/xdeknkzd" method="POST">
+        <label for="email2" data-t="label"></label>
+        <div class="row">
+          <input type="email" id="email2" name="email" required autocomplete="email" data-ph="ph">
+          <button type="submit" data-t="btn"></button>
+        </div>
+        <input type="hidden" name="lang" value="es">
+        <input type="hidden" name="_subject" value="WeekQuest: nuevo apuntado">
+        <label class="gotcha" aria-hidden="true">No rellenar <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label>
+        <p class="note" data-t="note"></p>
+        <p class="msg" role="status"></p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap"><div class="narrow">
+    <p data-t="foot1"></p>
+    <p data-t="foot2"></p>
+  </div></div>
+</footer>
+
+<script>
+// --- Textos en los dos idiomas ---
+const T = {
+  es: {
+    kicker: 'Lista de espera abierta',
+    h1: 'Tu entrenamiento, como un juego de rol por semanas.',
+    lead: 'Define tus objetivos semanales o elige una plantilla, marca las sesiones que haces y gana experiencia al cerrar la semana. La dificultad sube cuando tú lo decides. Sin rachas, sin castigos, sin brillos.',
+    label: 'Avísame cuando abra la beta',
+    btn: 'Apuntarme',
+    note: 'Solo para avisarte. Sin spam; te das de baja respondiendo a cualquier correo.',
+    ok: 'Apuntado. Te avisaremos cuando abra la beta.',
+    bad: 'No se ha podido enviar. Prueba otra vez en un momento.',
+    t1: 'Tus objetivos, tu semana.',
+    p1: 'Cada bloque es un objetivo semanal que defines tú: fuerza, correr, movilidad, pasos, lectura, meditación, lo que quieras. Si prefieres empezar rápido, hay plantillas listas para distintos objetivos, y la app te propone otros nuevos cuando llevas semanas cumpliendo.',
+    t2: 'La dificultad sube cuando tú lo decides.',
+    p2: 'Cada bloque tiene escalones: cuando una semana te sale fácil, subes uno. Programa sesiones de evaluación para medir dónde estás. Los niveles van por tramos con título propio, de siervo a leyenda.',
+    t3: 'Logros que son tuyos.',
+    p3: 'Los progresivos (flexiones acumuladas, kilómetros, libros) pasan de bronce a oro. Los personales los creas tú: una meta, un reto, una fecha. Todos valen puntos.',
+    alt1: 'Pantalla Semana del prototipo: anillo de experiencia, misión de la semana y bloques con su progreso',
+    alt2: 'Pantalla Personaje: emblema, título Aprendiz de herrero, nivel 7 y tramos del título',
+    alt3: 'Pantalla Logros: flexiones, dominadas y kilómetros acumulados con medalla de bronce o plata',
+    f1t: 'Sin rachas',
+    f1p: 'Una semana floja resta algo de experiencia y ya. No hay contador a cero ni fuego que se apaga.',
+    f2t: 'Totalmente personalizable',
+    f2p: 'Bloques, objetivos, escalones y logros a tu medida. Y si no quieres configurar nada, plantillas y diseños listos para usar.',
+    f3t: 'Reta a tus amigos',
+    f3p: 'Comparte tu progreso y lánzales retos: mismo objetivo, cada uno a su nivel.',
+    f4t: 'Estética sobria',
+    f4p: 'Dos colores por tema, sin dorados ni destellos. Varios temas para elegir; el que ves es Cobalto.',
+    againt: 'Sé de los primeros en probarla.',
+    againp: 'Déjanos tu correo y te avisaremos cuando abra la beta.',
+    foot1: 'WeekQuest está en desarrollo. Los apuntados a la lista probarán la beta antes que nadie.',
+    foot2: 'Privacidad: el correo se guarda en Formspree y solo se usa para avisarte del lanzamiento. Para borrarlo, responde a cualquier correo.',
+    ph: 'tu@correo.com',
+    sub: 'WeekQuest: nuevo apuntado',
+  },
+  en: {
+    kicker: 'Waiting list open',
+    h1: 'Your training, played as a week-by-week RPG.',
+    lead: 'Set your own weekly goals or pick a template, log the sessions you do and earn experience when you close the week. Difficulty goes up when you decide. No streaks, no punishment, no glitter.',
+    label: 'Tell me when the beta opens',
+    btn: 'Join the list',
+    note: 'Just a heads-up. No spam; reply to any email to unsubscribe.',
+    ok: 'You are on the list. We will let you know when the beta opens.',
+    bad: 'Could not send. Please try again in a moment.',
+    t1: 'Your goals, your week.',
+    p1: 'Each block is a weekly goal you define: strength, running, mobility, steps, reading, meditation, anything. If you would rather start fast, there are ready-made templates for different goals, and the app suggests new ones once you have been hitting yours for a few weeks.',
+    t2: 'Difficulty goes up when you say so.',
+    p2: 'Each block has steps: when a week feels easy, you climb one. Schedule assessment sessions to measure where you stand. Levels come in tiers with their own title, from serf to legend.',
+    t3: 'Achievements that are yours.',
+    p3: 'Progressive ones (push-ups accumulated, kilometres, books) go from bronze to gold. Personal ones you create yourself: a goal, a challenge, a date. All of them earn points.',
+    alt1: 'Week screen of the prototype: experience ring, weekly mission and blocks with their progress',
+    alt2: 'Character screen: emblem, title, level 7 and title tiers',
+    alt3: 'Achievements screen: push-ups, pull-ups and kilometres with bronze or silver medals',
+    f1t: 'No streaks',
+    f1p: 'A weak week costs a bit of experience and that is it. No counter back to zero, no flame going out.',
+    f2t: 'Fully customisable',
+    f2p: 'Blocks, goals, steps and achievements your way. And if you would rather not set anything up, templates and themes ready to use.',
+    f3t: 'Challenge your friends',
+    f3p: 'Share your progress and send them challenges: same goal, each at their own level.',
+    f4t: 'Sober look',
+    f4p: 'Two colours per theme, no gold, no sparkle. Several themes to pick from; the one you see is Cobalt.',
+    againt: 'Be among the first to try it.',
+    againp: 'Leave your email and we will let you know when the beta opens.',
+    foot1: 'WeekQuest is in development. People on the list will try the beta before anyone else.',
+    foot2: 'Privacy: your email is stored at Formspree and only used to tell you about the launch. Reply to any email to have it deleted.',
+    ph: 'you@email.com',
+    sub: 'WeekQuest: new signup',
+  },
+};
+
+// --- Idioma: ?lang=, luego el guardado, luego el del navegador ---
+let lang = 'es';
+try {
+  const q = new URLSearchParams(location.search).get('lang');
+  const guardado = localStorage.getItem('wq-lang');
+  lang = q || guardado || ((navigator.language || 'es').toLowerCase().startsWith('es') ? 'es' : 'en');
+} catch { lang = 'es'; }
+if (!T[lang]) lang = 'es';
+
+function aplicar(l) {
+  lang = l;
+  const t = T[l];
+  document.documentElement.lang = l;
+  document.title = 'WeekQuest';
+  document.querySelectorAll('[data-t]').forEach((el) => { el.textContent = t[el.dataset.t]; });
+  document.querySelectorAll('[data-ph]').forEach((el) => { el.placeholder = t[el.dataset.ph]; });
+  document.querySelectorAll('[data-alt]').forEach((el) => { el.alt = t[el.dataset.alt]; });
+  document.querySelectorAll('input[name=lang]').forEach((el) => { el.value = l; });
+  document.querySelectorAll('input[name=_subject]').forEach((el) => { el.value = t.sub; });
+  document.querySelectorAll('.lang button').forEach((b) => b.classList.toggle('on', b.dataset.lang === l));
+  const url = new URL(location.href); url.searchParams.set('lang', l); history.replaceState(null, '', url);
+  try { localStorage.setItem('wq-lang', l); } catch {}
+}
+document.querySelector('.lang').addEventListener('click', (e) => {
+  const b = e.target.closest('[data-lang]'); if (b) aplicar(b.dataset.lang);
+});
+aplicar(lang);
+
+// --- Envío a Formspree sin salir de la página; si falla el JS, el formulario envía normal ---
+document.querySelectorAll('form.wait').forEach((f) => {
+  f.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = f.querySelector('button'), msg = f.querySelector('.msg');
+    btn.disabled = true; msg.className = 'msg';
+    try {
+      const r = await fetch(f.action, { method: 'POST', body: new FormData(f), headers: { Accept: 'application/json' } });
+      if (!r.ok) throw new Error(r.status);
+      msg.textContent = T[lang].ok; msg.className = 'msg ok';
+      f.querySelector('.row').hidden = true; f.querySelector('.note').hidden = true;
+    } catch {
+      msg.textContent = T[lang].bad; msg.className = 'msg bad'; btn.disabled = false;
+    }
+  });
+});
+</script>
+</body>
+</html>
