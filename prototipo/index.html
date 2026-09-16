@@ -1,0 +1,1116 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="WeekQuest">
+<meta name="theme-color" content="#F2F2EF">
+<meta name="robots" content="noindex">
+<link rel="apple-touch-icon" href="/icono.png">
+<body>
+<title>WeekQuest</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap">
+<style>
+/* WeekQuest · prototipo clicable con datos de ejemplo (v5, 15/09/2026: retoques tras probarlo en el móvil).
+   Temas: Cobalto (claro, por defecto), Olivo, Basalto, Mármol y Verdigrís. En todos, el primer
+   color (--vd) es progreso y el segundo (--br) es rango. Los componentes solo usan tokens.
+   Pantalla Semana en disposición "Fusión": anillo de experiencia, misión, bloques como chips
+   y el elegido desplegado; al abrir la app sale la pantalla de entrada "¿Qué has hecho hoy?". */
+:root{
+  --bg:#E6E3DB; --bg-2:#ECEAE3; --sur:#F3F1EC; --sur-2:#FAF9F6; --deep:#DDD9CF;
+  --line:#CBC7BB; --line-2:#B7B2A4;
+  --vd:#2E7F6C; --vd-lit:#25705E; --vd-dim:#BFDCD3; --vd-ghost:rgba(46,127,108,.12);
+  --br:#9A6530; --br-lit:#7E501F; --br-dim:#DCC7AE; --br-ghost:rgba(154,101,48,.12);
+  --txt:#1E221F; --txt-2:#3E443F; --txt-3:#6B716B; --txt-4:#8F948D;
+  --bad:#A8473B; --bad-dim:#EED3CE; --bad-lit:#8E3A30;
+  --on-vd:#F4FBF8; --shield:#F6F4EF; --out:#CFCBC1;
+  --bronce:#9A6530; --plata:#7E8480; --oro:#B08A2E; --platino:#5F6E6C; --diamante:#2E7F9A; --leyenda:#6C4FB0;
+  --cut:polygon(9px 0,100% 0,100% calc(100% - 9px),calc(100% - 9px) 100%,0 100%,0 9px);
+  --cut-lg:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px);
+  --disp:Marcellus,'Trajan Pro',Georgia,serif;
+  --sans:'Alegreya Sans','Gill Sans','Segoe UI',system-ui,sans-serif;
+  --tabs:64px;
+  color-scheme:light;
+}
+:root[data-theme="verdigris"]{
+  --bg:#0F1513; --bg-2:#131A17; --sur:#182120; --sur-2:#1F2A27; --deep:#0A0E0D;
+  --line:#2A3632; --line-2:#37463F;
+  --vd:#4DA58E; --vd-lit:#7CC7B0; --vd-dim:#2B5F52; --vd-ghost:rgba(77,165,142,.13);
+  --br:#C58B4B; --br-lit:#DBA86C; --br-dim:#6E4A28; --br-ghost:rgba(197,139,75,.14);
+  --txt:#E9E3D2; --txt-2:#BDB7A8; --txt-3:#8C8B80; --txt-4:#5F6259;
+  --bad:#B45A4E; --bad-dim:#4A2723; --bad-lit:#E29A8F;
+  --on-vd:#EAF6F1; --shield:#121A18; --out:#070A09;
+  --bronce:#C58B4B; --plata:#C9CBC4; --oro:#E2B75B; --platino:#DCE5E4; --diamante:#8FD3E0; --leyenda:#B79AE0;
+  color-scheme:dark;
+}
+:root[data-theme="cobalto"]{
+  --bg:#F2F2EF; --bg-2:#F6F6F3; --sur:#FBFBF9; --sur-2:#FFFFFF; --deep:#E6E6E1;
+  --line:#D3D3CC; --line-2:#BDBDB4;
+  --vd:#2C55C9; --vd-lit:#2447AD; --vd-dim:#C5D0F0; --vd-ghost:rgba(44,85,201,.11);
+  --br:#4A4E56; --br-lit:#33363D; --br-dim:#D0D2D6; --br-ghost:rgba(74,78,86,.1);
+  --txt:#1B1D21; --txt-2:#3C3F45; --txt-3:#6A6E75; --txt-4:#8F939A;
+  --bad:#B4463A; --bad-dim:#F0D4CF; --bad-lit:#953629;
+  --on-vd:#F4F7FF; --shield:#FFFFFF; --out:#E2E2DD;
+  --bronce:#9A6530; --plata:#7E8480; --oro:#B08A2E; --platino:#5F6E6C; --diamante:#2E7F9A; --leyenda:#6C4FB0;
+  color-scheme:light;
+}
+:root[data-theme="olivo"]{
+  --bg:#EBE4D3; --bg-2:#F0EADB; --sur:#F6F1E4; --sur-2:#FBF8EF; --deep:#E0D7C1;
+  --line:#CFC5AB; --line-2:#B9AE90;
+  --vd:#5C6E36; --vd-lit:#4E5F2C; --vd-dim:#CBD2B4; --vd-ghost:rgba(92,110,54,.13);
+  --br:#B3572F; --br-lit:#94461F; --br-dim:#E8C9B8; --br-ghost:rgba(179,87,47,.12);
+  --txt:#2A2620; --txt-2:#48423A; --txt-3:#74695B; --txt-4:#968B7C;
+  --bad:#6B655E; --bad-dim:#DDD6CB; --bad-lit:#4E4841;
+  --on-vd:#F4F6EE; --shield:#F8F4E9; --out:#D8CFB8;
+  --bronce:#9A6530; --plata:#7E8480; --oro:#B08A2E; --platino:#5F6E6C; --diamante:#2E7F9A; --leyenda:#6C4FB0;
+  color-scheme:light;
+}
+:root[data-theme="basalto"]{
+  --bg:#171412; --bg-2:#1C1916; --sur:#221E1A; --sur-2:#2A2521; --deep:#100E0C;
+  --line:#352F29; --line-2:#443C34;
+  --vd:#D07E4B; --vd-lit:#E5996A; --vd-dim:#6B3F22; --vd-ghost:rgba(208,126,75,.14);
+  --br:#C8C0B0; --br-lit:#E2DACB; --br-dim:#5A5449; --br-ghost:rgba(200,192,176,.12);
+  --txt:#EDE6DA; --txt-2:#C4BBAD; --txt-3:#918879; --txt-4:#625B50;
+  --bad:#A54F45; --bad-dim:#43241F; --bad-lit:#E09488;
+  --on-vd:#1C120B; --shield:#1E1A16; --out:#0B0908;
+  --bronce:#C58B4B; --plata:#C9CBC4; --oro:#E2B75B; --platino:#DCE5E4; --diamante:#8FD3E0; --leyenda:#B79AE0;
+  color-scheme:dark;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{background:var(--out)}
+body{margin:0;background:var(--out);color:var(--txt);font-family:var(--sans);font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased;overscroll-behavior:none}
+button{font-family:inherit;color:inherit;background:none;border:none;padding:0;cursor:pointer;font-size:inherit}
+input,select{font-family:inherit}
+input[type="number"]::-webkit-outer-spin-button,input[type="number"]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+input[type="number"]{-moz-appearance:textfield;appearance:textfield}
+.num{font-variant-numeric:tabular-nums}
+:is(button,input,select,[tabindex]):focus-visible{outline:2px solid var(--vd);outline-offset:2px}
+
+.phone{position:relative;max-width:430px;margin:0 auto;min-height:100dvh;background:var(--bg);display:flex;flex-direction:column}
+@media(min-width:520px){.phone{min-height:100vh;box-shadow:0 0 0 1px var(--line),0 0 90px rgba(0,0,0,.35)}}
+
+.top{position:sticky;top:0;z-index:5;display:flex;align-items:flex-end;justify-content:space-between;padding:calc(12px + env(safe-area-inset-top)) 20px 10px;background:linear-gradient(var(--bg) 78%,transparent)}
+.top .brand{font-family:var(--disp);font-size:19px;letter-spacing:.5px;color:var(--txt);line-height:1}
+.top .brand b{color:var(--vd);font-weight:400}
+.top .week{text-align:right;font-family:var(--disp);font-size:14px;color:var(--txt-2);line-height:1.2}
+.top .week small{display:block;font-family:var(--sans);font-size:13px;color:var(--txt-3)}
+
+main{flex:1;padding:6px 16px calc(var(--tabs) + 30px + env(safe-area-inset-bottom))}
+.screen{display:none;flex-direction:column;gap:26px}
+.screen.on{display:flex}
+
+.h{font-family:var(--disp);font-size:15px;color:var(--txt-2);margin:0;display:flex;align-items:center;gap:12px}
+.h::after{content:'';flex:1;height:1px;background:var(--line)}
+.h .r{font-family:var(--sans);font-size:13px;color:var(--txt-3);order:2}
+.h .r button{color:var(--txt-3);text-decoration:underline;text-underline-offset:2px;font-size:13px}
+.mut{color:var(--txt-3)}
+.hint{font-size:13.5px;color:var(--txt-3);margin:0;line-height:1.4}
+.esc{display:inline-block;font-family:var(--disp);font-size:12px;color:var(--br);border:1px solid var(--br-dim);padding:0 6px;line-height:1.6;white-space:nowrap}
+.tag{display:inline-block;font-size:12px;color:var(--txt-3);border:1px solid var(--line);padding:0 6px;line-height:1.6;white-space:nowrap}
+.btn{display:block;width:100%;background:var(--vd);color:var(--on-vd);font-family:var(--disp);font-size:16px;padding:15px;text-align:center;clip-path:var(--cut);transition:transform .12s}
+.btn:active{transform:scale(.985)}
+.btn-2{display:block;width:100%;background:var(--sur);border:1px solid var(--line-2);color:var(--txt-2);padding:13px;font-size:15px;text-align:center;clip-path:var(--cut)}
+.meter{display:inline-flex;gap:3px;vertical-align:middle}
+.meter i{width:14px;height:6px;background:var(--deep);border:1px solid var(--line-2)}
+.meter i.on{background:var(--vd);border-color:var(--vd)}
+.meter i.half{background:linear-gradient(90deg,var(--vd) 50%,var(--deep) 50%);border-color:var(--vd)}
+.orn{display:flex;align-items:center;gap:10px;margin:0}
+.orn>span{height:1px;flex:1;background:var(--line)}
+.orn i{width:6px;height:6px;transform:rotate(45deg);background:var(--vd)}
+.card{background:var(--sur);border:1px solid var(--line);clip-path:var(--cut)}
+.list{display:flex;flex-direction:column;gap:8px}
+.cat{display:flex;flex-direction:column;gap:8px}
+.chev{font-family:var(--disp);color:var(--br);font-size:20px}
+
+/* Barra de experiencia (Personaje) */
+.xp{position:relative;height:14px;background:var(--deep);border:1px solid var(--line-2);padding:2px;margin:12px 0 0}
+.xp>i{display:block;height:100%;background:var(--vd);transition:width .8s cubic-bezier(.2,.8,.2,1)}
+.xp .notch{position:absolute;inset:2px;display:grid;grid-template-columns:repeat(10,1fr);pointer-events:none}
+.xp .notch span{border-right:1px solid var(--deep)}
+.xp .notch span:last-child{border:none}
+.xp-txt{display:flex;justify-content:space-between;margin-top:6px;font-size:13.5px;color:var(--txt-3)}
+.xp-txt b{font-weight:500;color:var(--txt-2)}
+.xp-delta{margin-left:8px;color:var(--vd-lit);opacity:0;transition:opacity .3s;font-weight:500}
+.xp-delta.on{opacity:1}
+
+/* Tira de días (dentro del bloque Pasos) */
+.strip{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.strip button{display:flex;flex-direction:column;align-items:center;gap:6px;padding:9px 0 8px;background:var(--sur);border:1px solid var(--line);clip-path:var(--cut);color:var(--txt-3);transition:background .15s}
+.strip .d{font-family:var(--disp);font-size:14px}
+.strip .k{font-size:12.5px;min-height:15px;color:var(--txt-2)}
+.strip .dot{width:7px;height:7px;transform:rotate(45deg);background:var(--deep);border:1px solid var(--line-2)}
+.strip button.act .dot{background:var(--vd);border-color:var(--vd)}
+.strip button.act{color:var(--txt-2)}
+.strip button.today{border-color:var(--vd);background:var(--vd-ghost);color:var(--txt)}
+.strip button.future{opacity:.55}
+.strip-foot{display:flex;justify-content:space-between;gap:10px;font-size:13.5px;color:var(--txt-3);margin-top:8px;flex-wrap:wrap}
+.strip-foot b{font-weight:500;color:var(--txt-2)}
+
+/* Misión */
+.check{display:flex;gap:12px;align-items:flex-start;text-align:left;width:100%;font-size:16px;line-height:1.35}
+.box{flex:none;width:22px;height:22px;margin-top:1px;border:1px solid var(--line-2);background:var(--sur-2);display:grid;place-items:center;font-size:14px;color:var(--on-vd);transition:background .15s}
+.check.on .box{background:var(--vd);border-color:var(--vd)}
+.check.on .box::after{content:'✓'}
+.mission .pts{font-family:var(--disp);color:var(--br);font-size:15px;margin-left:auto;white-space:nowrap}
+.mission .tier{font-size:13px;color:var(--txt-3)}
+
+/* Casillas de sesión (slots) */
+.slots{display:grid;gap:8px}
+.slot{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:64px;padding:10px 8px;text-align:center;clip-path:var(--cut);width:100%;transition:transform .12s,background .15s;background:var(--bg-2);border:1px dashed var(--line-2);color:var(--txt-3)}
+.slot:active{transform:scale(.97)}
+.slot-t{font-family:var(--disp);font-size:14px;line-height:1.2}
+.slot-s{font-size:13px;opacity:.9}
+.slot .esc{position:absolute;top:6px;right:6px;font-size:10.5px;padding:0 5px}
+.slot.ok{background:var(--vd);border:1px solid var(--vd);color:var(--on-vd)}
+.slot.ok .esc{color:var(--on-vd);border-color:rgba(255,255,255,.4)}
+.slot.try{background:var(--sur-2);border:1px solid var(--line-2);color:var(--txt-2)}
+.slot.bad{background:var(--bad-dim);border:1px solid var(--bad);color:var(--bad-lit)}
+.slot-run{flex-direction:row;gap:12px;cursor:default;min-height:58px}
+.slot-run input{background:var(--sur-2);border:1px solid var(--line-2);color:var(--txt);font-size:17px;padding:6px 8px;width:86px;text-align:center;font-family:var(--disp)}
+.slot-run input:focus{outline:none;border-color:var(--vd)}
+.slot-run .u{font-size:14px;color:var(--txt-3)}
+.slot-run.ok .u,.slot-run.ok .tick{color:var(--on-vd)}
+.slot-run .tick{font-family:var(--disp);font-size:18px;width:18px}
+
+/* Pestañas */
+nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:6;display:flex;justify-content:center;pointer-events:none}
+nav.tabs .in{pointer-events:auto;width:100%;max-width:430px;display:grid;grid-template-columns:repeat(5,1fr);background:var(--sur-2);border-top:1px solid var(--line);padding:7px 0 calc(6px + env(safe-area-inset-bottom));height:calc(var(--tabs) + env(safe-area-inset-bottom))}
+nav.tabs button{display:flex;flex-direction:column;align-items:center;gap:4px;color:var(--txt-4);font-family:var(--disp);font-size:11px}
+nav.tabs button svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
+nav.tabs button.on{color:var(--vd-lit)}
+
+/* Emblema */
+.emb{display:block}
+.emb .shield{fill:var(--shield);stroke:var(--br);stroke-width:2.2}
+.emb .inner{fill:none;stroke:var(--br-dim);stroke-width:1}
+.emb .steps{fill:none;stroke:var(--vd);stroke-width:2.8;stroke-linecap:square}
+.emb .laurel{fill:none;stroke:var(--vd);stroke-width:1.6;stroke-linecap:round}
+.emb .crest{fill:var(--br)}
+.emb .crown{fill:none;stroke:var(--br-lit);stroke-width:1.8;stroke-linejoin:round}
+
+/* Personaje */
+.pj{display:flex;flex-direction:column;align-items:center;padding:26px 18px 20px;gap:6px;text-align:center;background:var(--sur);border:1px solid var(--line);clip-path:var(--cut-lg)}
+.pj .emb{width:136px;height:136px}
+.pj .t{font-family:var(--disp);font-size:24px;margin:8px 0 0;text-wrap:balance;line-height:1.15}
+.pj .n{font-size:15px;color:var(--txt-3);margin:0}
+.pj .lvl{font-family:var(--disp);font-size:15px;color:var(--br);margin:2px 0 0}
+.pj .xp{width:100%}
+.tramos{display:flex;flex-direction:column;background:var(--sur);border:1px solid var(--line);clip-path:var(--cut)}
+.tramo{display:grid;grid-template-columns:40px 1fr auto;align-items:center;gap:12px;padding:11px 14px;border-bottom:1px solid var(--line);color:var(--txt-3);font-size:14.5px}
+.tramo:last-child{border-bottom:none}
+.tramo .emb{width:36px;height:36px;opacity:.5}
+.tramo.now{color:var(--txt);background:var(--vd-ghost)}
+.tramo.now .emb{opacity:1}
+.tramo .name{font-family:var(--disp)}
+.tramo small{display:block;font-size:13px;color:var(--txt-4);font-family:var(--sans)}
+.tramo .r{font-size:13.5px;color:var(--txt-4)}
+.tramo.now .r{color:var(--vd-lit)}
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.metric{padding:12px 6px 10px;text-align:center;background:var(--sur);border:1px solid var(--line);clip-path:var(--cut)}
+.metric .v{font-family:var(--disp);font-size:21px;color:var(--txt);margin:0}
+.metric .v small{font-size:13px;color:var(--txt-3);font-family:var(--sans)}
+.metric .k{font-size:13px;color:var(--txt-3);margin:1px 0 0}
+.metric .up{font-size:13px;color:var(--vd-lit);margin:1px 0 0}
+.metric .up.none{color:var(--txt-4)}
+.metric.add{border-style:dashed;color:var(--txt-3);display:flex;align-items:center;justify-content:center;font-size:13.5px;min-height:74px}
+.cta{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;width:100%;text-align:left;background:var(--sur);border:1px solid var(--br-dim);clip-path:var(--cut)}
+.cta b{font-family:var(--disp);font-weight:400;font-size:16px}
+.cta small{display:block;color:var(--txt-3);font-size:13.5px}
+
+/* Logros */
+.seg{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line-2);clip-path:var(--cut)}
+.seg button{padding:11px;font-family:var(--disp);font-size:14px;color:var(--txt-3)}
+.seg button.on{background:var(--sur-2);color:var(--vd-lit);box-shadow:inset 0 -2px 0 var(--vd)}
+.ach{padding:12px 14px;display:flex;flex-direction:column;gap:7px;background:var(--sur);border:1px solid var(--line);clip-path:var(--cut)}
+.ach-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.ach-top .t{font-family:var(--disp);font-size:15px;margin:0}
+.ach-top .tierp{font-size:13px;padding:1px 8px;border:1px solid;white-space:nowrap}
+.bar{height:7px;background:var(--deep);border:1px solid var(--line-2)}
+.bar>i{display:block;height:100%;transition:width .6s}
+.ach-foot{display:flex;justify-content:space-between;font-size:13.5px;color:var(--txt-3)}
+.ach-foot b{font-weight:500;color:var(--br)}
+.own{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 14px;width:100%;text-align:left;background:var(--sur);border:1px solid var(--line);clip-path:var(--cut)}
+.own.on{border-color:var(--vd);background:var(--vd-ghost)}
+.own .t{font-size:15px;margin:0;line-height:1.3}
+.own .t small{display:block;color:var(--txt-4);font-size:13px;margin-top:2px}
+.own .p{font-family:var(--disp);color:var(--br);font-size:14px;white-space:nowrap}
+.own.on .p{color:var(--vd-lit)}
+.own.on .p::before{content:'✓ '}
+.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+
+/* Estadísticas */
+.chart{padding:14px 12px 10px;background:var(--sur);border:1px solid var(--line);clip-path:var(--cut)}
+.chart svg{width:100%;height:auto;display:block}
+.chart .t{font-size:11.5px;fill:var(--txt-4);font-family:var(--sans)}
+.chart .t.g{fill:var(--vd-lit);font-family:var(--disp);font-size:12px}
+.chart .grid{stroke:var(--line);stroke-width:1}
+.chart .b{fill:var(--vd-dim)}
+.chart .b.now{fill:var(--vd)}
+.chart .ln{fill:none;stroke:var(--vd);stroke-width:2;stroke-linejoin:round}
+.chart .ln.br{stroke:var(--br)}
+.chart .ar{fill:var(--vd-ghost)}
+.chart .pt{fill:var(--vd-lit)}
+.chart .pt.soft{fill:var(--sur);stroke:var(--vd);stroke-width:1.5}
+.chart .pt.br{fill:var(--br)}
+.chart .pt.hollow{fill:var(--sur);stroke:var(--line-2);stroke-width:1.5}
+.chart .t.g.br{fill:var(--br)}
+.chart .grid.dash{stroke:var(--line-2);stroke-dasharray:3 4}
+.rows{display:flex;flex-direction:column;gap:5px}
+.row{display:grid;grid-template-columns:1fr auto;gap:10px;padding:10px 14px;background:var(--sur);border:1px solid var(--line);font-size:15px;color:var(--txt-2)}
+.row b{font-family:var(--disp);font-weight:400;color:var(--txt)}
+.row small{color:var(--txt-4);font-size:13px}
+.tiles{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.tile{padding:12px 14px;background:var(--sur);border:1px solid var(--line);clip-path:var(--cut)}
+.tile .v{font-family:var(--disp);font-size:22px;margin:0;color:var(--txt)}
+.tile .v small{font-family:var(--sans);font-size:13px;color:var(--txt-3)}
+.tile .k{font-size:13px;color:var(--txt-3);margin:0}
+.hbar{display:grid;grid-template-columns:120px 1fr auto;gap:10px;align-items:center;font-size:14px;color:var(--txt-2);padding:6px 0}
+.hbar .bar{height:9px}
+.hbar b{font-family:var(--disp);font-weight:400;color:var(--txt);white-space:nowrap}
+
+/* Más */
+.set{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px 16px;width:100%;text-align:left;background:var(--sur);border:1px solid var(--line);clip-path:var(--cut)}
+.set .t{margin:0;font-size:15.5px}
+.set .t small{display:block;color:var(--txt-4);font-size:13px}
+.set .v{color:var(--vd-lit);font-family:var(--disp);font-size:14px;white-space:nowrap}
+.tpl{display:flex;flex-direction:column;gap:3px;padding:12px 14px;width:100%;text-align:left;background:var(--sur);border:1px solid var(--line);clip-path:var(--cut)}
+.tpl.on{border-color:var(--vd);background:var(--vd-ghost)}
+.tpl .t{font-family:var(--disp);font-size:15.5px;margin:0;display:flex;justify-content:space-between;gap:10px}
+.tpl .t span:last-child{font-family:var(--sans);font-size:13px;color:var(--vd-lit)}
+.tpl .d{font-size:13.5px;color:var(--txt-3);margin:0}
+.tpl .b{font-size:13px;color:var(--txt-4);margin:0}
+
+/* Ventanas */
+.overlay{position:fixed;inset:0;z-index:20;background:rgba(20,24,22,.62);display:none;align-items:flex-end;justify-content:center}
+:root:is([data-theme="verdigris"],[data-theme="basalto"]) .overlay{background:rgba(7,6,5,.88)}
+.overlay.on{display:flex}
+.sheet{position:relative;width:100%;max-width:430px;max-height:92dvh;overflow:auto;background:var(--bg-2);border:1px solid var(--vd);border-bottom:none;padding:22px 20px calc(22px + env(safe-area-inset-bottom));clip-path:polygon(16px 0,100% 0,100% 100%,0 100%,0 16px);animation:up .35s cubic-bezier(.2,.8,.2,1)}
+.sheet .x{position:absolute;top:8px;right:8px;width:40px;height:40px;display:grid;place-items:center;color:var(--txt-3);z-index:1}
+.sheet .x svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round}
+.sheet h2{padding:0 28px}
+@keyframes up{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
+.sheet h2{font-family:var(--disp);font-weight:400;font-size:21px;color:var(--txt);text-align:center;margin:0}
+.sheet .sub{text-align:center;color:var(--txt-3);font-size:14.5px;margin:4px 0 0}
+.sheet .orn{margin:12px 0 14px}
+.sheet .h{margin:14px 0 6px}
+.frow{display:grid;grid-template-columns:1fr auto 80px;gap:12px;align-items:center;padding:6px 0}
+.frow .n{font-size:15.5px;color:var(--txt-2)}
+.frow .o{font-size:13.5px;color:var(--txt-3);white-space:nowrap}
+.frow input,.frow select{background:var(--sur-2);border:1px solid var(--line-2);color:var(--txt);font-size:17px;padding:8px;width:100%;text-align:center;font-family:var(--disp)}
+.frow input:focus,.frow select:focus{outline:none;border-color:var(--vd)}
+.frow input.hit{border-color:var(--vd);color:var(--vd-lit)}
+.crow{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 0;font-size:15.5px;color:var(--txt-2);width:100%;text-align:left}
+.crow .box{margin:0}
+.crow small{color:var(--txt-4);font-size:13px}
+.actions{display:grid;grid-template-columns:1fr auto;gap:10px;margin-top:18px}
+.actions .btn-2{padding:13px 18px;width:auto}
+.ledger{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:10px 0;margin:14px 0;font-size:15px;color:var(--txt-2)}
+.ledger div{display:flex;justify-content:space-between;gap:12px;padding:4px 0}
+.ledger .plus{color:var(--vd-lit)}.ledger .minus{color:var(--bad-lit)}
+.ledger .tot{font-family:var(--disp);font-size:20px;color:var(--txt);padding-top:10px}
+.steps-pick{display:grid;grid-template-columns:1fr 1fr;gap:4px 12px;margin-top:6px}
+.steps-pick .crow{padding:7px 0;font-size:14.5px}
+.steps-pick .crow.off{color:var(--txt-4)}
+.count{display:flex;flex-direction:column;align-items:center;gap:6px;padding:8px 0 4px}
+.count .big{font-family:var(--disp);font-size:48px;line-height:1;color:var(--vd-lit)}
+.count .k{font-size:14px;color:var(--txt-3)}
+.count .lvlup{font-family:var(--disp);font-size:18px;color:var(--txt);margin-top:10px;text-align:center}
+.count .lvlup small{display:block;font-family:var(--sans);font-size:14px;color:var(--br);margin-bottom:2px}
+/* Cierre de semana: la experiencia entra en la barra y, si se llena (o se vacía), cambia el nivel */
+.ca{display:flex;flex-direction:column;align-items:center;text-align:center;width:100%;margin-top:4px}
+.ca .emb{width:72px;height:72px}
+.ca .lv{font-family:var(--disp);font-size:15px;margin:6px 0 0;color:var(--br)}
+.ca .tt{font-family:var(--disp);font-size:20px;margin:0;color:var(--txt);line-height:1.15}
+.ca .xp{width:100%}
+.ca .xp>i{transition:none}
+.ca .xp-txt{width:100%}
+.ca .msg{font-family:var(--disp);font-size:17px;margin:12px 0 0;min-height:22px;color:var(--vd-lit);opacity:0;transform:translateY(6px);transition:opacity .4s,transform .4s}
+.ca .msg.on{opacity:1;transform:none}
+.ca .msg.down{color:var(--bad-lit)}
+.ca .msg.same{font-family:var(--sans);font-size:14px;color:var(--txt-3)}
+.ca.bump .emb,.ca.bump .lv{animation:bump .55s cubic-bezier(.2,.8,.2,1)}
+@keyframes bump{0%{transform:scale(1)}35%{transform:scale(1.16)}100%{transform:scale(1)}}
+
+/* Semana, disposición Fusión: anillo, misión, bloques como chips y el elegido desplegado */
+.focus-head{display:flex;flex-direction:column;align-items:center;text-align:center;gap:2px;padding-top:4px}
+.ring{position:relative;width:112px;height:112px}
+.ring svg.arc{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg)}
+.ring .arc circle{fill:none;stroke-width:5}
+.ring .arc .bg{stroke:var(--deep)}
+.ring .arc .fg{stroke:var(--vd);transition:stroke-dashoffset .8s cubic-bezier(.2,.8,.2,1)}
+.ring .emb{position:absolute;inset:18px;width:76px;height:76px}
+.focus-head .t{font-family:var(--disp);font-size:20px;margin:10px 0 0;line-height:1.15;text-wrap:balance}
+.focus-head .s{font-size:13.5px;color:var(--txt-3);margin:0}
+.focus-head .s b{font-family:var(--disp);font-weight:400;color:var(--br);font-size:15px}
+.focus-head .x{font-size:13.5px;color:var(--txt-3);margin:4px 0 0}
+.focus-head .x b{font-weight:500;color:var(--txt-2)}
+.bchips{display:flex;flex-wrap:wrap;gap:6px}
+.bchip{display:flex;flex-direction:column;align-items:flex-start;gap:5px;padding:8px 11px;background:var(--sur);border:1px solid var(--line);clip-path:var(--cut);font-family:var(--disp);font-size:14px;color:var(--txt-3);flex:1 1 auto;min-width:92px;text-align:left;transition:background .15s}
+.bchip .meter i{width:9px;height:5px}
+.bchip small{font-family:var(--sans);font-size:12px;color:var(--txt-4)}
+.bchip.on{border-color:var(--vd);background:var(--vd-ghost);color:var(--txt)}
+.bchip.done{background:var(--vd);border-color:var(--vd);color:var(--on-vd)}
+.bchip.done small{color:var(--on-vd);opacity:.85}
+.bchip.done .meter i{background:rgba(255,255,255,.28);border-color:transparent}
+.bchip.done .meter i.on{background:var(--on-vd)}
+.bchip.done.on{box-shadow:inset 0 0 0 2px var(--on-vd)}
+.fb{display:flex;flex-direction:column;gap:12px;padding:14px;background:var(--sur);border:1px solid var(--line);clip-path:var(--cut-lg)}
+.fb .fh{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.fb .fh .n{font-family:var(--disp);font-size:18px;margin:0;display:flex;align-items:center;gap:10px}
+.fb .desc{font-size:14px;color:var(--txt-3);margin:0;line-height:1.4}
+.next{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line);background:var(--bg-2);font-size:14px;color:var(--txt-2)}
+.next b{font-family:var(--disp);font-weight:400;color:var(--txt)}
+.mission .card{padding:14px 16px}
+
+/* Pantalla de entrada: qué has hecho hoy */
+.entry{position:fixed;inset:0;z-index:15;display:none;justify-content:center;background:var(--out)}
+.entry.on{display:flex}
+.entry .in{width:100%;max-width:430px;height:100%;display:flex;flex-direction:column;background:var(--bg);color:var(--txt)}
+.entry .eh{flex:none;padding:calc(20px + env(safe-area-inset-top)) 20px 12px;display:flex;flex-direction:column;gap:4px}
+.entry .eh .t{font-family:var(--disp);font-size:22px;margin:0;line-height:1.15}
+.entry .eh .s{font-size:14px;color:var(--txt-3);margin:0}
+.entry .eh .s b{font-weight:500;color:var(--txt-2)}
+.entry .eb{flex:1;overflow-y:auto;padding:4px 16px 16px;display:flex;flex-direction:column;gap:12px}
+.entry .ef{flex:none;padding:12px 16px calc(14px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:8px;border-top:1px solid var(--line);background:var(--sur-2)}
+.entry .btn[disabled]{opacity:.5}
+.pick{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pick-b{display:flex;flex-direction:column;align-items:flex-start;gap:6px;padding:12px 14px;min-height:78px;background:var(--sur);border:1px solid var(--line);clip-path:var(--cut);font-family:var(--disp);font-size:15px;color:var(--txt-2);text-align:left;position:relative}
+.pick-b small{font-family:var(--sans);font-size:12.5px;color:var(--txt-4)}
+.pick-b .meter{margin-top:auto}
+.pick-b .meter i{width:9px;height:5px}
+.pick-b.sel{border-color:var(--vd);background:var(--vd-ghost);color:var(--txt);box-shadow:inset 0 0 0 1px var(--vd)}
+.pick-b.sel::after{content:'';position:absolute;top:10px;right:10px;width:8px;height:8px;transform:rotate(45deg);background:var(--vd)}
+.pick-b.done{background:var(--vd);border-color:var(--vd);color:var(--on-vd)}
+.pick-b.done small{color:var(--on-vd);opacity:.85}
+.pick-b.done .meter i{background:rgba(255,255,255,.28);border-color:transparent}
+.pick-b.done .meter i.on{background:var(--on-vd)}
+.pick-b.done.sel{box-shadow:inset 0 0 0 2px var(--on-vd)}
+.pick-b.done.sel::after{background:var(--on-vd)}
+.steps-bar{display:flex;gap:4px}
+.steps-bar i{flex:1;height:4px;background:var(--deep);border:1px solid var(--line-2)}
+.steps-bar i.on{background:var(--vd);border-color:var(--vd)}
+.entry .fb .desc{display:none}
+
+/* Trofeo emergente */
+.toasts{position:fixed;top:calc(12px + env(safe-area-inset-top));left:0;right:0;z-index:30;display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none;padding:0 14px}
+.toast{display:flex;align-items:center;gap:12px;width:100%;max-width:400px;background:var(--sur-2);border:1px solid var(--br);border-left-width:4px;padding:11px 14px;clip-path:var(--cut);box-shadow:0 10px 30px rgba(0,0,0,.35);animation:tin .45s cubic-bezier(.2,.8,.2,1) both,tout .5s ease-in 5.5s both}
+.toast .ico{flex:none;width:36px;height:36px;display:grid;place-items:center;border:1px solid var(--br-dim);background:var(--sur)}
+.toast .ico svg{width:22px;height:22px;stroke:var(--br);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.toast .k{margin:0;font-size:13px;color:var(--br)}
+.toast .n{margin:1px 0 0;font-family:var(--disp);font-size:15px;color:var(--txt);line-height:1.25}
+.toast .d{margin:1px 0 0;font-size:13.5px;color:var(--txt-3)}
+.ring.bump{animation:bump .55s cubic-bezier(.2,.8,.2,1)}
+/* Ventana de cambio de nivel: centrada, por delante de todo */
+.overlay.center{align-items:center;padding:0 22px}
+.sheet.pop{max-width:360px;max-height:none;border:1px solid var(--vd);clip-path:var(--cut-lg);padding:26px 22px 22px;animation:pop .45s cubic-bezier(.2,.8,.2,1)}
+@keyframes pop{from{transform:scale(.9);opacity:0}to{transform:none;opacity:1}}
+.lvlwin{display:flex;flex-direction:column;align-items:center;text-align:center;gap:2px}
+.lvlwin .k{font-family:var(--disp);font-size:15px;color:var(--vd-lit);margin:0 0 10px;letter-spacing:.3px}
+.lvlwin .emb{width:104px;height:104px;animation:bump .7s cubic-bezier(.2,.8,.2,1) .2s}
+.lvlwin .lv{font-family:var(--disp);font-size:15px;color:var(--br);margin:12px 0 0}
+.lvlwin .tt{font-family:var(--disp);font-size:24px;color:var(--txt);margin:0;line-height:1.15;text-wrap:balance}
+.lvlwin .hint{margin:10px 0 18px}
+.lvlwin .btn{width:100%}
+.lvlwin.down .k{color:var(--bad-lit)}
+.sheet.pop .x{display:none}
+@keyframes tin{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:none}}
+@keyframes tout{from{opacity:1}to{opacity:0;transform:translateY(-16px)}}
+@media(prefers-reduced-motion:reduce){.toast,.sheet{animation:none}.xp>i,.bar>i,.ring .arc .fg{transition:none}}
+</style>
+
+<div class="phone">
+  <header class="top">
+    <button class="brand" id="brand" aria-label="Ir a la semana">Week<b>Quest</b></button>
+    <div class="week" id="top-week"></div>
+  </header>
+  <main>
+    <section id="semana" class="screen on"></section>
+    <section id="personaje" class="screen"></section>
+    <section id="logros" class="screen"></section>
+    <section id="stats" class="screen"></section>
+    <section id="mas" class="screen"></section>
+  </main>
+</div>
+
+<nav class="tabs" aria-label="Secciones">
+  <div class="in">
+    <button data-tab="semana" class="on" id="tab-semana"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="15"/><path d="M3 10h18M8 5V3M16 5V3"/></svg>Semana</button>
+    <button data-tab="personaje" id="tab-personaje"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 4.5-3.4 7.8-8 9-4.6-1.2-8-4.5-8-9V6z"/><path d="M9 14h2v-2h2v-2h2"/></svg>Personaje</button>
+    <button data-tab="logros" id="tab-logros"><svg viewBox="0 0 24 24"><path d="M7 4h10v4a5 5 0 0 1-10 0z"/><path d="M7 6H4v1a3 3 0 0 0 3 3M17 6h3v1a3 3 0 0 1-3 3M12 13v4M9 20h6M9 17h6v3H9z"/></svg>Logros</button>
+    <button data-tab="stats" id="tab-stats"><svg viewBox="0 0 24 24"><path d="M4 20h16M6 17V11M11 17V6M16 17v-4"/></svg>Estadísticas</button>
+    <button data-tab="mas" id="tab-mas"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h10"/></svg>Más</button>
+  </div>
+</nav>
+
+<div class="entry" id="entry" role="dialog" aria-modal="true" aria-labelledby="e-t"><div class="in">
+  <div class="eh"><p class="t" id="e-t"></p><p class="s" id="e-s"></p></div>
+  <div class="eb" id="e-b"></div>
+  <div class="ef" id="e-f"></div>
+</div></div>
+
+<div class="toasts" id="toasts" aria-live="polite"></div>
+<div class="overlay" id="overlay"><div class="sheet" id="sheet" role="dialog" aria-modal="true"></div></div>
+
+<script>
+'use strict';
+// Datos de ejemplo: plantilla "Calistenia en casa", personaje ficticio "Alex".
+const TITULOS = ['Esclavo de las cuadras','Limpiador de letrinas','Mozo de establo','Pinche de cocina','Siervo de la gleba','Campesino','Leñador','Aprendiz de herrero','Cazador de conejos','Guardia de la puerta',
+  'Recluta de la milicia','Lancero','Arquero','Soldado raso','Veterano de escaramuzas','Escudero','Escudero de honor','Hombre de armas','Sargento de la guardia','Guardia real',
+  'Caballero novel','Caballero errante','Caballero de la orden','Justador','Campeón de torneo','Capitán de la hueste','Comandante','Mariscal del reino','Señor de la torre','Señor del feudo',
+  'Barón','Vizconde','Conde','Marqués','Duque','Gran duque','Príncipe','Príncipe heredero','Rey','Gran rey'];
+const TRAMOS = [{n:'Siervo',d:'niveles 0 a 9',lv:0},{n:'Milicia',d:'niveles 10 a 19',lv:10},{n:'Caballería',d:'niveles 20 a 29',lv:20},{n:'Nobleza',d:'niveles 30 a 39',lv:30},{n:'Imperio y leyenda',d:'niveles 40 a 49',lv:40},{n:'Mito',d:'niveles 50 a 59',lv:50}];
+const coste = (n) => 1000 + 100 * n + 1000 * Math.floor(n / 10);
+const DIAS = ['L','M','X','J','V','S','D'];
+const DIAS_L = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
+const HOY = 2;
+const XP = { calistenia:120, correr:150, fuerza:130, movilidad:60, pasosDia:20, desarrollo:60, objetivo:100 };
+const PLANTILLAS = [
+  ['Calistenia en casa', 'Fuerza con el peso del cuerpo, movilidad y pasos. La más usada.', 'Calistenia, Correr, Fuerza, Movilidad, Pasos, Desarrollo personal'],
+  ['Boxeo y fuerza en casa', 'Dos o tres sesiones de boxeo, fuerza por ciclos, correr y movilidad.', 'Boxeo, Correr, Fuerza, Movilidad, Pasos'],
+  ['Gimnasio, 3 días', 'Empuje, tirón y pierna con objetivos por repeticiones a peso fijo.', 'Fuerza, Pasos, Movilidad'],
+  ['Correr y fuerza', 'Kilómetros por escalones y dos días de fuerza de apoyo.', 'Correr, Fuerza, Movilidad'],
+  ['Empezar de cero', 'Solo pasos y movilidad. Cuando quieras, saltas a otra plantilla.', 'Pasos, Movilidad, Desarrollo personal'],
+  ['Personalizada', 'Empiezas en blanco y montas tus bloques, sesiones y escalones.', 'Lo que tú decidas'],
+];
+// Evaluación: lo que trae la plantilla (marcado) y lo demás que se puede activar.
+const EVAL = {
+  'Medidas': [['Peso', 'kg', '74,2', '−1,1', true], ['Cintura', 'cm', '81', '−2', true], ['Cadera', 'cm', '96', '−1', false], ['Pecho', 'cm', '98', '+1', false], ['Brazo', 'cm', '33', '+0,5', false], ['Muslo', 'cm', '56', '+1', false], ['Grasa corporal', '%', '17', '−1', false]],
+  'Habilidades': [['Flexiones', 'seguidas', '22', '+5', true], ['Dominadas', 'seguidas', '7', '+3', true], ['Sentadillas', 'seguidas', '48', '+8', true], ['Plancha', 'min', '1:40', '+0:25', true], ['Colgado', 's', '52', '+12', true], ['Plancha lateral', 's', '45', '+10', false], ['Saltos de comba', 'seguidos', '120', '+40', false], ['2 km corriendo', 'min', '10:30', '−0:40', false], ['Tocar los pies', 'cm', '+4', '+6', false]],
+};
+
+function estadoInicial() {
+  return {
+    semana: 12, nivel: 7, xpBase: 1180,
+    mision: { texto: 'Suma 50 flexiones extra fuera de sesión', tier: 'media', pts: 200, ok: false },
+    calistenia: { esc: 4, obj: 3, slots: ['ok', 'try', null] },
+    correr: { esc: 3, objKm: 5, km: 3.2 },
+    fuerza: { obj: 3, rutinas: [
+      { n: 'Empuje', esc: 6, ej: [['Flexiones', 15, 15], ['Fondos en silla', 12, 12], ['Pike push-up', 8, 8]] },
+      { n: 'Tirón', esc: 5, ej: [['Dominadas', 6, null], ['Remo invertido', 12, null], ['Colgarse (segundos)', 40, null]] },
+      { n: 'Pierna', esc: 4, ej: [['Sentadillas', 25, null], ['Zancadas', 16, null], ['Puente de glúteo', 20, null]] },
+    ]},
+    movilidad: { obj: 2, rutinas: [
+      { n: 'Cadera y tobillo', ch: [['Sentadilla profunda 1 min', true], ['90/90', true], ['Tobillo contra pared', true], ['Pancake', true]] },
+      { n: 'Hombro y columna', ch: [['Colgarse pasivo', false], ['Gato-camello', false], ['Rotación torácica', false], ['Puente', false]] },
+    ]},
+    pasos: { esc: 2, objDia: 8000, dias: [[9120, true], [7480, false], [10250, true], [null, false], [null, false], [null, false], [null, false]] },
+    desarrollo: { esc: 2, obj: 3, slots: [['Lectura', '30 min', 'ok'], ['Meditación', '10 min', 'ok'], ['Estudio', '45 min', null], ['Diario', '5 min', null]] },
+    evalActivos: Object.fromEntries(Object.values(EVAL).flat().map((e) => [e[0], e[4]])),
+    // [puntos, conseguido, origen]: 'plantilla' viene con Calistenia en casa; 'tuyo' lo creó el usuario.
+    personales: {
+      'Entrenamiento': { 'Primera dominada estricta': [500, true, 'plantilla'], 'Terminar una sesión que empezaste pensando en dejarla': [300, true, 'plantilla'], 'Entrenar un festivo': [200, false, 'plantilla'], 'Hacer el pino contra la pared': [800, false, 'plantilla'], 'Muscle up': [1500, false, 'plantilla'] },
+      'Vida': { 'Correr bajo la lluvia': [200, true, 'plantilla'], 'Que alguien diga: estás fuerte, eh': [500, false, 'plantilla'], 'Que la ropa te quede distinta': [300, false, 'tuyo'] },
+      'Desarrollo personal': { 'Leer un libro entero': [300, false, 'plantilla'], 'Una semana sin redes sociales': [500, false, 'tuyo'], 'Treinta días seguidos de diario': [400, false, 'plantilla'] },
+    },
+    historia: [620, 840, 910, 1120, 780, 1240, 1310, 990, 1420, 1180, 1360],
+    niveles: [0, 0, 1, 2, 2, 3, 4, 4, 5, 6, 6],
+    // Evaluación: cada cuántas semanas (0 = solo cuando el usuario quiera) y en qué semana fue la última.
+    evalCada: 8, evalUltima: 8,
+    // Gráficas que el usuario ha añadido en Estadísticas (claves de GRAFICAS).
+    graficas: [],
+  };
+}
+let S;
+try { S = JSON.parse(localStorage.getItem('wq-demo-v5')) || estadoInicial(); } catch { S = estadoInicial(); }
+function guardar() { try { localStorage.setItem('wq-demo-v5', JSON.stringify(S)); } catch {} }
+const TEMAS = [['cobalto', 'Cobalto', 'claro: blanco roto, cobalto y grafito'], ['olivo', 'Olivo', 'claro: arcilla, olivo y terracota'], ['basalto', 'Basalto', 'oscuro: carbón, cobre y hueso'], ['marmol', 'Mármol', 'claro: piedra, verdigrís y bronce'], ['verdigris', 'Verdigrís', 'oscuro: verde de pátina sobre negro verdoso']];
+let tema = 'cobalto';
+try { tema = localStorage.getItem('wq-tema-2') || 'cobalto'; } catch {}
+function aplicarTema(t) { tema = t; document.documentElement.dataset.theme = t; try { localStorage.setItem('wq-tema-2', t); } catch {} }
+aplicarTema(tema);
+
+// --- Cálculo de la semana ---
+function estadoFuerza(r) { const h = r.ej.filter((e) => e[2] != null).length; if (!h) return null; return r.ej.every((e) => e[2] >= e[1]) ? 'ok' : 'try'; }
+function estadoMov(r) { const h = r.ch.filter((c) => c[1]).length; if (!h) return null; return h === r.ch.length ? 'ok' : 'try'; }
+function estadoCorrer() { const k = S.correr.km; if (!k) return null; return k >= S.correr.objKm ? 'ok' : 'try'; }
+function resumen() {
+  const d = { ganada: 0, penal: 0, ok: 0, try: 0, bad: 0, objetivos: [], lineas: [] };
+  const suma = (n, pts) => { d.ganada += pts; d.lineas.push([n, pts]); };
+  const cuenta = (estados, obj, ptsOk, nombre) => {
+    const ok = estados.filter((e) => e === 'ok').length, tr = estados.filter((e) => e === 'try').length;
+    const vacios = Math.max(0, obj - ok - tr);
+    d.ok += ok; d.try += tr; d.bad += vacios;
+    if (ok) suma(`${nombre}, ${ok} completada${ok > 1 ? 's' : ''}`, ok * ptsOk);
+    if (vacios) d.penal += vacios * Math.round(ptsOk / 2);
+    if (ok >= obj) d.objetivos.push(nombre);
+  };
+  cuenta(S.calistenia.slots, S.calistenia.obj, XP.calistenia, 'Calistenia');
+  cuenta([estadoCorrer()], 1, XP.correr, 'Correr');
+  cuenta(S.fuerza.rutinas.map(estadoFuerza), S.fuerza.obj, XP.fuerza, 'Fuerza');
+  cuenta(S.movilidad.rutinas.map(estadoMov), S.movilidad.obj, XP.movilidad, 'Movilidad');
+  cuenta(S.desarrollo.slots.map((s) => s[2]), S.desarrollo.obj, XP.desarrollo, 'Desarrollo personal');
+  const activos = S.pasos.dias.filter((x) => x[1]).length;
+  if (activos) suma(`Pasos, ${activos} día${activos > 1 ? 's' : ''} activo${activos > 1 ? 's' : ''}`, activos * XP.pasosDia);
+  const totalPasos = S.pasos.dias.reduce((a, x) => a + (x[0] || 0), 0);
+  if (totalPasos >= S.pasos.objDia * 7) d.objetivos.push('Pasos');
+  if (S.mision.ok) suma('Misión de la semana', S.mision.pts);
+  d.bonus = d.objetivos.length * XP.objetivo; d.totalPasos = totalPasos; d.activos = activos;
+  d.total = d.ganada + d.bonus - d.penal;
+  return d;
+}
+function xpAhora() { return S.xpBase + resumen().ganada; }
+// Nivel y experiencia dentro del nivel para una cantidad acumulada desde un nivel de partida (sube o baja los que hagan falta).
+function estadoDesde(nivel, acum) { let n = nivel, x = acum; while (x >= coste(n)) { x -= coste(n); n++; } while (x < 0 && n > 0) { n--; x += coste(n); } return [n, Math.max(0, x)]; }
+// Nivel "vivo": lo ganado esta semana ya cuenta, así que si la barra se llena el nivel sube al momento. Al cerrar, lo que reste puede bajarlo.
+function vivo() { return estadoDesde(S.nivel, xpAhora()); }
+// Evaluación: cuándo toca la siguiente.
+function proximaEval() { return S.evalCada ? S.evalUltima + S.evalCada : null; }
+function txtProximaEval() { const p = proximaEval(); if (p === null) return 'cuando tú quieras'; if (p <= S.semana) return 'te toca esta semana'; return `semana ${p}, dentro de ${p - S.semana} semana${p - S.semana > 1 ? 's' : ''}`; }
+const txtCada = () => S.evalCada ? `cada ${S.evalCada} semanas` : 'cuando tú quieras';
+
+// --- Emblema por capas ---
+function emblema(nivel, cls = 'emb') {
+  const tramo = Math.floor(nivel / 10);
+  const laurel = tramo >= 1 ? `<path class="laurel" d="M22 66c-6-6-8-16-4-26M22 66c-4 1-8 0-10-3M20 56c-3 1-7 0-9-2M19 47c-3 1-6 0-8-3M78 66c6-6 8-16 4-26M78 66c4 1 8 0 10-3M80 56c3 1 7 0 9-2M81 47c3 1 6 0 8-3"/>` : '';
+  const crest = tramo >= 2 ? `<path class="crest" d="M50 8l-6 8h12z"/>` : '';
+  const crown = tramo >= 3 ? `<path class="crown" d="M36 26l4-8 6 5 4-9 4 9 6-5 4 8z"/>` : '';
+  return `<svg class="${cls}" viewBox="0 0 100 100" aria-hidden="true"><path class="shield" d="M50 12l30 10v22c0 16-12 29-30 36C32 73 20 60 20 44V22z"/><path class="inner" d="M50 20l22 7v17c0 12-9 22-22 27-13-5-22-15-22-27V27z"/><path class="steps" d="M36 60h9v-8h9v-8h9v-8"/>${laurel}${crest}${crown}</svg>`;
+}
+
+// --- Render ---
+const $ = (id) => document.getElementById(id);
+const fmt = (n) => Number(n).toLocaleString('es-ES');
+const meter = (ok, obj, tr = 0) => `<span class="meter" aria-hidden="true">${Array.from({ length: obj }, (_, i) => `<i class="${i < ok ? 'on' : i < ok + tr ? 'half' : ''}"></i>`).join('')}</span>`;
+const notches = Array.from({ length: 10 }, () => '<span></span>').join('');
+const ORN = '<div class="orn"><span></span><i></i><span></span></div>';
+
+function renderTop() { $('top-week').innerHTML = `Semana ${S.semana}<small>del 14 al 20 de septiembre</small>`; }
+
+function renderSemana() {
+  const r = resumen();
+  const [nv, xp] = vivo(), obj = coste(nv), pct = Math.max(0, Math.min(100, xp / obj * 100));
+  const chips = BLOQUES.map((k) => { const b = infoBloque(k); return `<button class="bchip ${b.done ? 'done' : ''} ${k === bloqueAbierto ? 'on' : ''}" data-act="blk" data-b="${k}" aria-pressed="${k === bloqueAbierto}">${b.nombre}${meter(b.ok, b.obj, b.tr)}<small>${b.corto}</small></button>`; }).join('');
+  $('semana').innerHTML = `
+    <div class="focus-head">
+      <div class="ring" id="ring"><svg class="arc" viewBox="0 0 112 112" aria-hidden="true"><circle class="bg" cx="56" cy="56" r="52"/><circle class="fg" cx="56" cy="56" r="52" stroke-dasharray="326.7" stroke-dashoffset="${(326.7 * (1 - pct / 100)).toFixed(1)}"/></svg>${emblema(nv)}</div>
+      <p class="t">${TITULOS[nv]}</p>
+      <p class="s"><b>nivel ${nv}</b> · Alex, ${TRAMOS[Math.floor(nv / 10)].n.toLowerCase()}</p>
+      <p class="x"><b class="num">${fmt(xp)}</b> de ${fmt(obj)}, faltan <b class="num">${fmt(Math.max(0, obj - xp))}</b> para el nivel ${nv + 1}<span class="xp-delta" id="xp-delta"></span></p>
+    </div>
+
+    <div class="cat mission">
+      <div class="card"><button class="check ${S.mision.ok ? 'on' : ''}" data-act="mision" aria-pressed="${S.mision.ok}"><span class="box"></span><span>${S.mision.texto}<br><span class="tier">misión de la semana, dificultad ${S.mision.tier}</span></span><span class="pts num">+${S.mision.pts}</span></button></div>
+    </div>
+
+    <div class="cat">
+      <p class="h">La semana <span class="r">toca un bloque para verlo</span></p>
+      <div class="bchips">${chips}</div>
+      ${cuerpoBloque(bloqueAbierto)}
+    </div>
+
+    <div>
+      <button class="btn" data-act="cierre">Cerrar la semana ${S.semana}</button>
+      <p class="hint" style="text-align:center;margin-top:10px">Lo que quede sin hacer resta. Los objetivos semanales, los logros y los escalones se resuelven al cerrar.</p>
+    </div>`;
+}
+
+// --- Bloques de la semana (chips + cuerpo desplegado; el mismo cuerpo sirve en la pantalla de entrada) ---
+const BLOQUES = ['cal', 'run', 'fz', 'mv', 'ps', 'dp'];
+let bloqueAbierto = 'cal';
+try { bloqueAbierto = localStorage.getItem('wq-bloque') || 'cal'; } catch {}
+if (!BLOQUES.includes(bloqueAbierto)) bloqueAbierto = 'cal';
+const n = (a, v) => a.filter((e) => e === v).length;
+const fmtKm = (k) => String(k).replace('.', ',');
+function infoBloque(k) {
+  if (k === 'cal') { const s = S.calistenia.slots, ok = n(s, 'ok'); return { nombre: 'Calistenia', esc: `E${S.calistenia.esc}`, ok, tr: n(s, 'try'), obj: S.calistenia.obj, done: ok >= S.calistenia.obj, corto: `${ok} de ${S.calistenia.obj}`, val: `<b class="num">${ok}</b> de ${S.calistenia.obj} sesiones` }; }
+  if (k === 'run') { const km = S.correr.km || 0, o = S.correr.objKm; return { nombre: 'Correr', esc: `E${S.correr.esc}`, ok: Math.min(o, Math.floor(km)), tr: km < o && km % 1 > 0 ? 1 : 0, obj: o, done: km >= o, corto: `${fmtKm(km)} de ${o} km`, val: `<b class="num">${fmtKm(km)}</b> de ${o} km` }; }
+  if (k === 'fz') { const e = S.fuerza.rutinas.map(estadoFuerza), ok = n(e, 'ok'); return { nombre: 'Fuerza', esc: '', ok, tr: n(e, 'try'), obj: S.fuerza.obj, done: ok >= S.fuerza.obj, corto: `${ok} de ${S.fuerza.obj}`, val: `<b class="num">${ok}</b> de ${S.fuerza.obj} rutinas` }; }
+  if (k === 'mv') { const e = S.movilidad.rutinas.map(estadoMov), ok = n(e, 'ok'); return { nombre: 'Movilidad', esc: '', ok, tr: n(e, 'try'), obj: S.movilidad.obj, done: ok >= S.movilidad.obj, corto: `${ok} de ${S.movilidad.obj}`, val: `<b class="num">${ok}</b> de ${S.movilidad.obj} rutinas` }; }
+  if (k === 'ps') { const act = S.pasos.dias.filter((d) => d[1]).length, tot = S.pasos.dias.reduce((a, d) => a + (d[0] || 0), 0), o = S.pasos.objDia * 7; return { nombre: 'Pasos', esc: `E${S.pasos.esc}`, ok: act, tr: 0, obj: 7, done: tot >= o, corto: `${act} día${act === 1 ? '' : 's'} activo${act === 1 ? '' : 's'}`, val: `<b class="num">${fmt(tot)}</b> de ${fmt(o)}` }; }
+  const e = S.desarrollo.slots.map((x) => x[2]), ok = n(e, 'ok');
+  return { nombre: 'Desarrollo personal', esc: `E${S.desarrollo.esc}`, ok, tr: n(e, 'try'), obj: S.desarrollo.obj, done: ok >= S.desarrollo.obj, corto: `${ok} de ${S.desarrollo.obj}`, val: `<b class="num">${ok}</b> de ${S.desarrollo.obj} hábitos` };
+}
+function cuerpoBloque(k) {
+  const b = infoBloque(k);
+  let desc = '', cuerpo = '', sig = '';
+  if (k === 'cal') {
+    desc = 'Sesiones con el peso del cuerpo. Una intentada cuenta la mitad; al cerrar, las que falten restan.';
+    cuerpo = `<div class="slots" style="grid-template-columns:repeat(3,1fr)">${S.calistenia.slots.map((e, i) => `<button class="slot ${e || ''}" data-act="cal" data-i="${i}"><span class="slot-t">Sesión ${i + 1}</span><span class="slot-s">${e === 'ok' ? 'hecha' : e === 'try' ? 'intentada' : 'pendiente'}</span></button>`).join('')}</div>`;
+    sig = `E${S.calistenia.esc + 1} · ${S.calistenia.obj + 1} sesiones`;
+  } else if (k === 'run') {
+    const ec = estadoCorrer();
+    desc = 'Kilómetros acumulados en la semana. El objetivo sube por escalones.';
+    cuerpo = `<div class="slot slot-run ${ec || ''}"><span class="tick">${ec === 'ok' ? '✓' : ec === 'try' ? '~' : ''}</span><input type="number" step="0.1" min="0" inputmode="decimal" class="km" value="${S.correr.km ?? ''}" placeholder="0,0" aria-label="Kilómetros"><span class="u">km esta semana</span></div>`;
+    sig = `E${S.correr.esc + 1} · ${S.correr.objKm + 1} km`;
+  } else if (k === 'fz') {
+    desc = 'Rutinas con objetivos por repeticiones. Cada una tiene su propio escalón; toca una para apuntar lo hecho.';
+    cuerpo = `<div class="slots" style="grid-template-columns:repeat(3,1fr)">${S.fuerza.rutinas.map((rt, i) => { const e = estadoFuerza(rt); const h = rt.ej.filter((x) => x[2] != null).length; return `<button class="slot ${e || ''}" data-act="fuerza" data-i="${i}"><span class="esc">E${rt.esc}</span><span class="slot-t">${rt.n}</span><span class="slot-s">${e === 'ok' ? 'hecha' : e === 'try' ? `${h} de ${rt.ej.length}` : 'pendiente'}</span></button>`; }).join('')}</div>`;
+  } else if (k === 'mv') {
+    desc = 'Rutinas de movilidad con lista de ejercicios. Toca una para marcar lo hecho.';
+    cuerpo = `<div class="slots" style="grid-template-columns:repeat(2,1fr)">${S.movilidad.rutinas.map((rt, i) => { const e = estadoMov(rt); const h = rt.ch.filter((c) => c[1]).length; return `<button class="slot ${e || ''}" data-act="mov" data-i="${i}"><span class="slot-t">${rt.n}</span><span class="slot-s">${e === 'ok' ? 'hecha' : e === 'try' ? `${h} de ${rt.ch.length}` : 'pendiente'}</span></button>`; }).join('')}</div>`;
+  } else if (k === 'ps') {
+    const r = resumen();
+    desc = `Un día cuenta como activo a partir de ${fmt(S.pasos.objDia)} pasos. Toca un día para apuntarlos.`;
+    cuerpo = `<div class="strip">${S.pasos.dias.map((d, i) => `<button class="${d[1] ? 'act' : ''} ${i === HOY ? 'today' : ''} ${i > HOY ? 'future' : ''}" data-act="dia" data-i="${i}" aria-label="${DIAS_L[i]}${d[0] != null ? ', ' + fmt(d[0]) + ' pasos' : ''}"><span class="d">${DIAS[i]}</span><span class="k num">${d[0] != null ? (d[0] / 1000).toFixed(1).replace('.', ',') : ''}</span><span class="dot"></span></button>`).join('')}</div>
+      <div class="strip-foot"><span>${DIAS_L[HOY]}, día ${HOY + 1} de 7</span><span><b class="num">${r.activos}</b> días activos</span></div>`;
+    sig = `E${S.pasos.esc + 1} · ${fmt(S.pasos.objDia + 1000)} al día`;
+  } else {
+    desc = 'Lectura, meditación, estudio y diario. Cuentan las sesiones, no los minutos exactos.';
+    cuerpo = `<div class="slots" style="grid-template-columns:repeat(2,1fr)">${S.desarrollo.slots.map((x, i) => `<button class="slot ${x[2] || ''}" data-act="dp" data-i="${i}"><span class="slot-t">${x[0]}</span><span class="slot-s">${x[2] === 'ok' ? 'hecho' : x[2] === 'try' ? 'a medias' : x[1]}</span></button>`).join('')}</div>`;
+    sig = `E${S.desarrollo.esc + 1} · ${S.desarrollo.obj + 1} hábitos`;
+  }
+  return `<div class="fb"><div class="fh"><p class="n">${b.nombre}${b.esc ? ` <span class="esc">${b.esc}</span>` : ''}</p><span class="wk ${b.done ? 'done' : ''}"><span class="val">${b.val}</span></span></div><p class="desc">${desc}${b.done ? ' Objetivo cumplido.' : ''}</p>${cuerpo}${sig ? `<div class="next"><span>Siguiente escalón</span><b>${sig}</b></div>` : ''}</div>`;
+}
+
+// --- Pantalla de entrada: sale al abrir la app; eliges bloques y pasas por ellos uno a uno ---
+const E = { on: false, sel: [], paso: -1 };
+function abrirEntrada() { E.on = true; E.sel = []; E.paso = -1; $('entry').classList.add('on'); renderEntrada(); }
+function cerrarEntrada() { E.on = false; $('entry').classList.remove('on'); window.scrollTo({ top: 0 }); }
+function renderEntrada() {
+  if (!E.on) return;
+  const t = $('e-t'), sub = $('e-s'), body = $('e-b'), foot = $('e-f');
+  if (E.paso < 0) {
+    t.textContent = '¿Qué has hecho hoy?';
+    sub.innerHTML = `<b>${DIAS_L[HOY]}, día ${HOY + 1} de 7, quedan ${6 - HOY}.</b> Toca los bloques donde tengas algo que apuntar.`;
+    body.innerHTML = `<div class="pick">${BLOQUES.map((k) => { const b = infoBloque(k); return `<button class="pick-b ${b.done ? 'done' : ''} ${E.sel.includes(k) ? 'sel' : ''}" data-act="pick" data-b="${k}" aria-pressed="${E.sel.includes(k)}">${b.nombre}<small>${b.corto}</small>${meter(b.ok, b.obj, b.tr)}</button>`; }).join('')}</div>`;
+    const c = E.sel.length;
+    foot.innerHTML = `<button class="btn" data-act="e-go" ${c ? '' : 'disabled'}>${c ? `Seguir con ${c} bloque${c > 1 ? 's' : ''}` : 'Elige al menos uno'}</button><button class="btn-2" data-act="e-close">Hoy nada, ver la semana</button>`;
+    body.scrollTop = 0;
+    return;
+  }
+  const k = E.sel[E.paso], b = infoBloque(k), ultimo = E.paso === E.sel.length - 1;
+  t.textContent = b.nombre;
+  sub.innerHTML = `Bloque <b>${E.paso + 1} de ${E.sel.length}</b>. Marca lo que hayas hecho.`;
+  body.innerHTML = `<div class="steps-bar">${E.sel.map((_, i) => `<i class="${i <= E.paso ? 'on' : ''}"></i>`).join('')}</div>${cuerpoBloque(k)}`;
+  foot.innerHTML = `<button class="btn" data-act="e-next">${ultimo ? 'Listo' : 'Siguiente'}</button><button class="btn-2" data-act="e-back">${E.paso === 0 ? 'Volver a elegir' : 'Atrás'}</button>`;
+}
+
+// --- Render de las demás pantallas ---
+function renderPersonaje() {
+  const [nv, xp] = vivo(), obj = coste(nv), pct = Math.min(100, xp / obj * 100);
+  const tramoNow = Math.floor(nv / 10);
+  const tramos = TRAMOS.map((t, i) => `<div class="tramo ${i === tramoNow ? 'now' : ''}">${emblema(t.lv)}<span class="name">${t.n}<small>${t.d}</small></span><span class="r">${i < tramoNow ? 'superado' : i === tramoNow ? 'aquí estás' : `desde el nivel ${t.lv}`}</span></div>`).join('');
+  const grupo = (cat) => { const items = EVAL[cat].filter((e) => S.evalActivos[e[0]]); return `
+    <div class="cat"><p class="h">${cat}<span class="r">${items.length} de ${EVAL[cat].length} activas</span></p>
+    <div class="metrics">${items.map((e) => `<div class="metric"><p class="v num">${e[2]}<small> ${e[1]}</small></p><p class="k">${e[0].toLowerCase()}</p><p class="up">${e[3]}</p></div>`).join('')}<button class="metric add" data-act="eval-elegir">elegir qué evaluar</button></div></div>`; };
+  $('personaje').innerHTML = `
+    <div class="pj">${emblema(nv)}<p class="t">${TITULOS[nv]}</p><p class="n">Alex</p><p class="lvl">Nivel ${nv}</p>
+      <div class="xp"><i style="width:${pct}%"></i><span class="notch">${notches}</span></div>
+      <div class="xp-txt" style="width:100%"><span class="num">${fmt(xp)} de ${fmt(obj)}</span><span>siguiente: <b>${TITULOS[nv + 1]}</b></span></div>
+    </div>
+    <div class="cat"><p class="h">Tramos del título</p><div class="tramos">${tramos}</div><p class="hint">El emblema gana una capa con cada tramo: laurel, cresta, corona.</p></div>
+    <div class="cat"><p class="h">Evaluación<span class="r">última: semana ${S.evalUltima}</span></p>
+      <p class="hint">Mides lo que tú elijas, al ritmo que tú marques. La plantilla Calistenia en casa trae 2 medidas y 5 habilidades; puedes activar más o añadir las tuyas.</p>
+      <button class="set" data-act="eval-cada"><p class="t">Cada cuánto evalúas<small>tú marcas el ritmo; además puedes evaluar cuando quieras</small></p><span class="v">${txtCada()}</span></button></div>
+    ${grupo('Medidas')}
+    ${grupo('Habilidades')}
+    <button class="cta" data-act="eval"><span><b>${proximaEval() === null || proximaEval() <= S.semana ? 'Hacer la evaluación' : 'Próxima evaluación'}</b><small>${txtProximaEval()}</small></span><span class="chev">›</span></button>`;
+}
+
+let tabLogros = 'prog';
+const PROG = {
+  'Ejercicio': [['Flexiones acumuladas', 1840, 2500, 'plata', 'oro', 300], ['Dominadas acumuladas', 412, 500, 'bronce', 'plata', 300], ['Sentadillas acumuladas', 2210, 2500, 'plata', 'oro', 300], ['Kilómetros corridos', 96, 100, 'bronce', 'plata', 300], ['Pasos totales', 612400, 1000000, 'plata', 'oro', 400]],
+  'Constancia': [['Semanas cerradas', 11, 12, null, 'bronce', 200], ['Semanas perfectas', 3, 5, null, 'bronce', 400], ['Semanas seguidas', 11, 12, 'bronce', 'plata', 300], ['Misiones completadas', 8, 10, null, 'bronce', 200]],
+  'Movilidad': [['Checks de movilidad', 168, 250, 'bronce', 'plata', 200], ['Sesiones de movilidad', 21, 25, 'bronce', 'plata', 200]],
+  'Desarrollo personal': [['Horas de lectura', 18, 25, 'bronce', 'plata', 200], ['Días de meditación', 34, 50, 'bronce', 'plata', 200]],
+};
+const TIER = { bronce: 'var(--bronce)', plata: 'var(--plata)', oro: 'var(--oro)', platino: 'var(--platino)', diamante: 'var(--diamante)', leyenda: 'var(--leyenda)' };
+
+function renderLogros() {
+  const todos = Object.values(S.personales).flatMap((g) => Object.values(g));
+  const cons = todos.filter((v) => v[1]).length;
+  const ptsPers = todos.filter((v) => v[1]).reduce((a, v) => a + v[0], 0);
+  let cuerpo;
+  if (tabLogros === 'prog') {
+    cuerpo = Object.entries(PROG).map(([cat, items]) => `<div class="cat"><p class="h">${cat}</p>${items.map((p) => { const pct = Math.min(100, p[1] / p[2] * 100); return `
+      <div class="ach"><div class="ach-top"><p class="t">${p[0]}</p><span class="tierp" style="border-color:${p[3] ? TIER[p[3]] : 'var(--line-2)'};color:${p[3] ? TIER[p[3]] : 'var(--txt-4)'}">${p[3] || 'sin peldaño'}</span></div>
+      <div class="bar"><i style="width:${pct}%;background:${TIER[p[4]]}"></i></div>
+      <div class="ach-foot"><span class="num">${fmt(p[1])} de ${fmt(p[2])} para ${p[4]}</span><b class="num">+${p[5]}</b></div></div>`; }).join('')}</div>`).join('');
+  } else {
+    cuerpo = `<p class="hint">Los personales los marcas tú cuando pasan. Unos vienen con la plantilla; otros los creas.</p>` + Object.entries(S.personales).map(([cat, items]) => `<div class="cat"><p class="h">${cat}</p>${Object.entries(items).map(([n, v]) => `
+      <button class="own ${v[1] ? 'on' : ''}" data-act="personal" data-c="${cat}" data-n="${n}" aria-pressed="${v[1]}"><p class="t">${n}<small>${v[1] ? 'conseguido' : 'toca cuando lo consigas'} <span class="tag">${v[2] === 'tuyo' ? 'creado por ti' : 'de la plantilla'}</span></small></p><span class="p num">${v[0]}</span></button>`).join('')}</div>`).join('') + `<button class="btn-2" data-act="nuevo-personal">Añadir un logro personal</button>`;
+  }
+  $('logros').innerHTML = `
+    <div class="summary"><div class="metric"><p class="v num">${11 + cons}</p><p class="k">conseguidos</p></div><div class="metric"><p class="v num">${13 * 6 + todos.length}</p><p class="k">en total</p></div><div class="metric"><p class="v num">${fmt(3600 + ptsPers)}</p><p class="k">puntos</p></div></div>
+    <div class="seg"><button class="${tabLogros === 'prog' ? 'on' : ''}" data-act="tab-logros" data-t="prog">Progresivos</button><button class="${tabLogros === 'own' ? 'on' : ''}" data-act="tab-logros" data-t="own">Personales</button></div>
+    ${cuerpo}
+    <p class="hint">Los progresivos se pagan al cerrar la semana. Los personales, al momento.</p>`;
+}
+
+// --- Gráficas: por defecto solo dos; el resto las añade el usuario desde un catálogo ---
+const ULT = 8;
+// Valores con coma decimal y separador de miles.
+const fv = (n, dec = 0) => Number(n).toLocaleString('es-ES', { minimumFractionDigits: dec, maximumFractionDigits: dec });
+// Barras por semana (últimas ULT), con el número encima de cada barra y "sem. N" debajo; la última es la semana en curso.
+function svgBarras(valores, unidad = '', dec = 0) {
+  const W = 380, H = 168, px = 8, top = 22, base = H - 24;
+  const vals = valores.slice(-ULT), semanas = vals.map((_, i) => S.semana - vals.length + 1 + i);
+  const bw = (W - px * 2) / vals.length, max = Math.max(...vals, 1);
+  const bars = vals.map((v, i) => { const h = Math.max(0, v) / max * (base - top), x = px + i * bw + 5, cx = x + (bw - 10) / 2, now = i === vals.length - 1; return `<rect class="b ${now ? 'now' : ''}" x="${x.toFixed(1)}" y="${(base - h).toFixed(1)}" width="${(bw - 10).toFixed(1)}" height="${h.toFixed(1)}"/><text class="t ${now ? 'g' : ''}" x="${cx.toFixed(1)}" y="${(base - h - 5).toFixed(1)}" text-anchor="middle">${fv(v, dec)}${unidad ? ' ' + unidad : ''}</text><text class="t" x="${cx.toFixed(1)}" y="${H - 7}" text-anchor="middle">sem. ${semanas[i]}</text>`; }).join('');
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Valor de cada una de las últimas semanas">${bars}</svg>`;
+}
+// Escalera de nivel: un peldaño por semana, cada nivel rotulado a la izquierda, punto relleno en las semanas en que subió.
+function svgNivel(nv) {
+  const W = 380, H = 168, px = 8, top = 22, base = H - 24, pxN = 54;
+  const semanas = nv.map((_, i) => S.semana - nv.length + 1 + i), nMin = Math.min(...nv), nMax = Math.max(...nv);
+  const yN = (n) => base - (n - nMin + .5) / (nMax - nMin + 1) * (base - top), bwN = (W - pxN - px) / nv.length;
+  const grid = Array.from({ length: nMax - nMin + 1 }, (_, k) => { const n = nMin + k, y = yN(n); return `<line class="grid" x1="${pxN}" x2="${W - px}" y1="${y.toFixed(1)}" y2="${y.toFixed(1)}"/><text class="t ${n === nv[nv.length - 1] ? 'g' : ''}" x="${pxN - 6}" y="${(y + 4).toFixed(1)}" text-anchor="end">nivel ${n}</text>`; }).join('');
+  const escalera = nv.map((n, i) => { const x0 = pxN + i * bwN, x1 = x0 + bwN, y = yN(n); return `${i ? 'L' : 'M'}${x0.toFixed(1)} ${y.toFixed(1)} L${x1.toFixed(1)} ${y.toFixed(1)}`; }).join(' ');
+  const puntos = nv.map((n, i) => `<circle class="pt ${n !== (nv[i - 1] ?? n) ? '' : 'soft'}" cx="${(pxN + i * bwN + bwN / 2).toFixed(1)}" cy="${yN(n).toFixed(1)}" r="3.5"/><text class="t" x="${(pxN + i * bwN + bwN / 2).toFixed(1)}" y="${H - 7}" text-anchor="middle">sem. ${semanas[i]}</text>`).join('');
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Nivel que tenías cada semana">${grid}<path class="ln" d="${escalera}"/>${puntos}</svg>`;
+}
+// Un punto por evaluación hecha (al empezar y cada una desde entonces) y el hueco de la siguiente si hay ritmo fijado.
+function svgEval(valores, unidad = '') {
+  const W = 380, H = 150, px = 8, top = 22;
+  const semanasEval = valores.map((_, i) => i === 0 ? 0 : S.evalUltima - (valores.length - 1 - i) * (S.evalCada || 8));
+  const prox = proximaEval(), cols = valores.length + (prox !== null ? 1 : 0), colW = (W - px * 2) / cols;
+  const vMin = Math.min(...valores), vMax = Math.max(...valores), rango = Math.max(vMax - vMin, 1), dec = valores.some((v) => v % 1) ? 1 : 0;
+  const pts = valores.map((v, i) => [px + colW * (i + .5), top + 8 + (vMax - v) / rango * (H - 24 - top - 16)]);
+  const path = pts.map((p, i) => `${i ? 'L' : 'M'}${p[0].toFixed(1)} ${p[1].toFixed(1)}`).join(' ');
+  const ultimo = pts[pts.length - 1], xProx = px + colW * (valores.length + .5);
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Valor en cada evaluación">
+    <path class="ln br" d="${path}"/>
+    ${pts.map((p, i) => `<circle class="pt br" cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="4"/><text class="t g br" x="${p[0].toFixed(1)}" y="${(p[1] - 10).toFixed(1)}" text-anchor="middle">${fv(valores[i], dec)}${unidad ? ' ' + unidad : ''}</text><text class="t" x="${p[0].toFixed(1)}" y="${H - 7}" text-anchor="middle">${i === 0 ? 'al empezar' : `sem. ${semanasEval[i]}`}</text>`).join('')}
+    ${prox !== null ? `<line class="grid dash" x1="${ultimo[0].toFixed(1)}" y1="${ultimo[1].toFixed(1)}" x2="${xProx.toFixed(1)}" y2="${ultimo[1].toFixed(1)}"/><circle class="pt hollow" cx="${xProx.toFixed(1)}" cy="${ultimo[1].toFixed(1)}" r="4"/><text class="t" x="${xProx.toFixed(1)}" y="${H - 7}" text-anchor="middle">sem. ${prox}, próxima</text>` : ''}</svg>`;
+}
+// Catálogo. tipo 'eval': un valor por evaluación hecha. tipo 'semana': 7 semanas pasadas; la actual se calcula al pintar.
+const GRAFICAS = {
+  peso: { t: 'Peso en las evaluaciones', tipo: 'eval', u: 'kg', v: [75.3, 74.2], grupo: 'Medidas' },
+  cintura: { t: 'Cintura en las evaluaciones', tipo: 'eval', u: 'cm', v: [83, 81], grupo: 'Medidas' },
+  flex: { t: 'Flexiones seguidas', tipo: 'eval', u: '', v: [17, 22], grupo: 'Habilidades' },
+  domin: { t: 'Dominadas seguidas', tipo: 'eval', u: '', v: [4, 7], grupo: 'Habilidades' },
+  sent: { t: 'Sentadillas seguidas', tipo: 'eval', u: '', v: [40, 48], grupo: 'Habilidades' },
+  plancha: { t: 'Plancha, segundos', tipo: 'eval', u: 's', v: [75, 100], grupo: 'Habilidades' },
+  colgado: { t: 'Colgado, segundos', tipo: 'eval', u: 's', v: [40, 52], grupo: 'Habilidades' },
+  km: { t: 'Kilómetros por semana', tipo: 'semana', u: 'km', dec: 1, v: [4.5, 6, 5.2, 11.5, 7, 8.4, 6.5], grupo: 'Por semana' },
+  pasos: { t: 'Pasos por semana', tipo: 'semana', u: '', dec: 0, v: [48200, 51300, 55900, 60100, 58400, 63800, 61200], grupo: 'Por semana' },
+  sesiones: { t: 'Sesiones hechas por semana', tipo: 'semana', u: '', dec: 0, v: [7, 9, 10, 11, 8, 12, 11], grupo: 'Por semana' },
+  activos: { t: 'Días activos por semana', tipo: 'semana', u: '', dec: 0, v: [4, 5, 5, 6, 4, 6, 5], grupo: 'Por semana' },
+};
+function hojaGraficas() {
+  const grupos = [...new Set(Object.values(GRAFICAS).map((g) => g.grupo))];
+  abrir(`<h2>Añadir gráficas</h2><p class="sub">Marca las que quieras ver en Estadísticas. Se pueden quitar después.</p>${ORN}
+    ${grupos.map((gr) => `<p class="h">${gr}</p>${Object.entries(GRAFICAS).filter(([, g]) => g.grupo === gr).map(([k, g]) => `<button class="check crow ${S.graficas.includes(k) ? 'on' : ''}" data-g="${k}" aria-pressed="${S.graficas.includes(k)}"><span>${g.t}</span><span class="box"></span></button>`).join('')}`).join('')}
+    <p class="hint" style="margin-top:12px">Las de medidas y habilidades salen de tus evaluaciones. En la app también podrás crear una gráfica de cualquier medida propia.</p>
+    <div class="actions"><button class="btn" id="ok">Guardar</button><button class="btn-2" id="no">Cancelar</button></div>`);
+  $('sheet').querySelectorAll('[data-g]').forEach((b) => { b.onclick = () => { b.classList.toggle('on'); b.setAttribute('aria-pressed', b.classList.contains('on')); }; });
+  $('no').onclick = cerrar;
+  $('ok').onclick = () => { S.graficas = Object.keys(GRAFICAS).filter((k) => $('sheet').querySelector(`[data-g="${k}"]`).classList.contains('on')); cerrar(); guardar(); renderStats(); };
+}
+
+function renderStats() {
+  const datos = [...S.historia, resumen().total];
+  const total = datos.reduce((a, b) => a + b, 0);
+  const media = Math.round(total / datos.length);
+  const mejor = Math.max(...datos), mejorSem = S.semana - datos.length + 1 + datos.indexOf(mejor);
+  const nv = [...S.niveles, S.nivel].slice(-ULT);
+  const rs = resumen();
+  // Gráficas que el usuario ha añadido (ver GRAFICAS): las de evaluación llevan los valores de cada evaluación hecha; las semanales, 7 semanas más la actual.
+  const actual = { km: S.correr.km || 0, pasos: rs.totalPasos, sesiones: rs.ok, activos: rs.activos };
+  const propias = S.graficas.filter((k) => GRAFICAS[k]).map((k) => { const g = GRAFICAS[k]; const svg = g.tipo === 'eval' ? svgEval(g.v, g.u) : svgBarras([...g.v, actual[k] ?? 0], g.u, g.dec); const pie = g.tipo === 'eval' ? `Un punto por evaluación. ${proximaEval() === null ? 'La siguiente, cuando tú quieras.' : `La siguiente te toca en la semana ${proximaEval()}.`}` : 'Una barra por semana; la oscura es esta semana, con lo que llevas hasta hoy.'; return `
+    <div class="cat"><p class="h">${g.t}<span class="r"><button data-act="quitar-g" data-g="${k}">quitar</button></span></p><div class="chart">${svg}<p class="hint" style="margin-top:8px">${pie}</p></div></div>`; }).join('');
+  const hb = (n, v, max, txt) => `<div class="hbar"><span>${n}</span><div class="bar"><i style="width:${v / max * 100}%;background:var(--vd)"></i></div><b class="num">${txt}</b></div>`;
+  $('stats').innerHTML = `
+    <div class="tiles">
+      <div class="tile"><p class="v num">${fmt(total)}</p><p class="k">experiencia total</p></div>
+      <div class="tile"><p class="v num">${fmt(media)}</p><p class="k">media por semana</p></div>
+      <div class="tile"><p class="v num">${fmt(mejor)}<small> sem. ${mejorSem}</small></p><p class="k">mejor semana</p></div>
+      <div class="tile"><p class="v num">11</p><p class="k">semanas seguidas</p></div>
+      <div class="tile"><p class="v num">3</p><p class="k">semanas perfectas</p></div>
+      <div class="tile"><p class="v num">87<small> %</small></p><p class="k">sesiones completadas</p></div>
+    </div>
+    <div class="cat"><p class="h">Experiencia por semana<span class="r">últimas ${Math.min(ULT, datos.length)} semanas</span></p><div class="chart">${svgBarras(datos.slice(-ULT), '', 0)}<p class="hint" style="margin-top:8px">Cada barra es lo que ganaste esa semana. La oscura es esta semana, con lo que llevas hasta hoy.</p></div></div>
+    <div class="cat"><p class="h">Nivel en el tiempo<span class="r">últimas ${nv.length} semanas</span></p><div class="chart">${svgNivel(nv)}<p class="hint" style="margin-top:8px">Cada peldaño es una semana. Los puntos marcados son las semanas en que subiste de nivel.</p></div></div>
+    ${propias}
+    <button class="metric add" data-act="add-g" style="min-height:54px">Añadir una gráfica</button>
+    <div class="cat"><p class="h">Sesiones por bloque<span class="r">${S.semana} semanas</span></p><div class="card" style="padding:8px 14px">
+      ${hb('Calistenia', 31, 36, '31 de 36')}${hb('Fuerza', 33, 36, '33 de 36')}${hb('Correr', 12, 12, '12 de 12')}${hb('Movilidad', 21, 24, '21 de 24')}${hb('Desarrollo personal', 28, 36, '28 de 36')}${hb('Pasos, días activos', 61, 84, '61 de 84')}</div></div>
+    <div class="cat"><p class="h">Acumulados</p><div class="rows">
+      <div class="row"><span>Flexiones</span><b class="num">1.840</b></div><div class="row"><span>Dominadas</span><b class="num">412</b></div><div class="row"><span>Sentadillas</span><b class="num">2.210</b></div>
+      <div class="row"><span>Segundos de plancha</span><b class="num">6.480</b></div><div class="row"><span>Kilómetros corridos</span><b class="num">96</b></div><div class="row"><span>Pasos</span><b class="num">612.400</b></div>
+      <div class="row"><span>Horas de lectura</span><b class="num">18</b></div><div class="row"><span>Días de meditación</span><b class="num">34</b></div></div></div>
+    <div class="cat"><p class="h">Récords</p><div class="rows">
+      <div class="row"><span>Más pasos en un día<br><small>semana 9, sábado</small></span><b class="num">18.340</b></div>
+      <div class="row"><span>Kilómetros en una semana<br><small>semana 10</small></span><b class="num">11,5</b></div>
+      <div class="row"><span>Flexiones en una sesión<br><small>semana 11, empuje</small></span><b class="num">48</b></div>
+      <div class="row"><span>Semana con más experiencia<br><small>semana ${mejorSem}</small></span><b class="num">${fmt(mejor)}</b></div></div></div>
+    <div class="cat"><p class="h">Escalones subidos</p><div class="rows">
+      <div class="row"><span>Fuerza, empuje</span><b>E1 a E6</b></div><div class="row"><span>Fuerza, tirón</span><b>E1 a E5</b></div><div class="row"><span>Fuerza, pierna</span><b>E1 a E4</b></div><div class="row"><span>Calistenia</span><b>E1 a E4</b></div><div class="row"><span>Correr</span><b>E1 a E3</b></div><div class="row"><span>Pasos</span><b>E1 a E2</b></div></div></div>
+    <div class="cat"><p class="h">Misiones y logros</p><div class="rows">
+      <div class="row"><span>Misiones completadas</span><b class="num">8 de 11</b></div><div class="row"><span>Logros conseguidos</span><b class="num">14</b></div><div class="row"><span>Puntos por logros</span><b class="num">4.600</b></div></div></div>`;
+}
+
+function renderMas() {
+  $('mas').innerHTML = `
+    <div class="cat"><p class="h">Programa</p><div class="list">
+      <button class="set" data-act="plantillas"><p class="t">Plantilla<small>6 bloques, 3 progresiones con escalones</small></p><span class="v">Calistenia en casa</span></button>
+      <button class="set" data-act="soon"><p class="t">Editar el programa<small>objetivos, sesiones por semana, ejercicios</small></p><span class="chev">›</span></button>
+      <button class="set" data-act="soon"><p class="t">Dificultad<small>cuánto pagan y cuánto restan las sesiones</small></p><span class="v">Normal</span></button></div></div>
+    <div class="cat"><p class="h">Tema</p><div class="list">
+      ${TEMAS.map((t) => `<button class="set" data-act="tema" data-t="${t[0]}"><p class="t">${t[1]}<small>${t[2]}</small></p><span class="v">${tema === t[0] ? 'activo' : ''}</span></button>`).join('')}
+      <button class="set" data-act="soon"><p class="t">Medieval, Anime<small>más adelante</small></p><span class="chev">›</span></button></div></div>
+    <div class="cat"><p class="h">Ajustes</p><div class="list">
+      <button class="set" data-act="soon"><p class="t">Avisos<small>el domingo, "cierra la semana"; la evaluación cuando toque</small></p><span class="v">activados</span></button>
+      <button class="set" data-act="soon"><p class="t">Unidades</p><span class="v">kg, km</span></button>
+      <button class="set" data-act="soon"><p class="t">Idioma</p><span class="v">español</span></button>
+      <button class="set" data-act="soon"><p class="t">Exportar o importar<small>tus datos son tuyos: sin cuenta y sin nube</small></p><span class="chev">›</span></button></div></div>
+    <div class="cat"><p class="h">Prototipo</p><div class="list"><button class="set" data-act="reset"><p class="t">Reiniciar la demo<small>vuelve a la semana 12 tal como empieza</small></p><span class="v">reiniciar</span></button></div>
+      <p class="hint">Datos de ejemplo. WeekQuest está en desarrollo; nada de lo que ves es de una persona real.</p></div>`;
+}
+function renderTodo() { renderTop(); renderSemana(); renderPersonaje(); renderLogros(); renderStats(); renderMas(); renderEntrada(); }
+function refrescar() { renderSemana(); renderPersonaje(); renderStats(); renderEntrada(); }
+
+// --- Hojas ---
+// Toda hoja lleva una X arriba a la derecha (equivale a Cancelar); con cerrable=false no la lleva ni se cierra tocando fuera.
+// centrada=true la pinta como ventana en medio de la pantalla (subida de nivel) en vez de hoja desde abajo.
+let hojaCerrable = true;
+function abrir(html, cerrable = true, centrada = false) {
+  hojaCerrable = cerrable;
+  $('sheet').innerHTML = (cerrable ? '<button class="x" id="sheet-x" aria-label="Cerrar"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>' : '') + html;
+  $('overlay').classList.add('on'); $('overlay').classList.toggle('center', centrada); $('sheet').classList.toggle('pop', centrada); $('sheet').scrollTop = 0;
+  if (cerrable) $('sheet-x').onclick = cerrar;
+}
+function cerrar() { $('overlay').classList.remove('on', 'center'); $('sheet').classList.remove('pop'); }
+$('overlay').addEventListener('click', (e) => { if (e.target.id === 'overlay' && hojaCerrable) cerrar(); });
+
+function hojaFuerza(i) {
+  const r = S.fuerza.rutinas[i];
+  abrir(`<h2>${r.n}, escalón ${r.esc}</h2><p class="sub">Apunta lo que has hecho. El objetivo es el del escalón.</p>${ORN}
+    ${r.ej.map((e, j) => `<div class="frow"><span class="n">${e[0]}</span><span class="o num">objetivo ${e[1]}</span><input type="number" min="0" inputmode="numeric" id="fz-${j}" value="${e[2] ?? ''}" class="${e[2] != null && e[2] >= e[1] ? 'hit' : ''}" aria-label="${e[0]}"></div>`).join('')}
+    <div class="actions"><button class="btn" id="ok">Guardar</button><button class="btn-2" id="no">Cancelar</button></div>`);
+  $('no').onclick = cerrar;
+  $('ok').onclick = () => { const nA = vivo()[0], xA = xpAhora(); r.ej.forEach((e, j) => { const v = $(`fz-${j}`).value; e[2] = v === '' ? null : Number(v); }); cerrar(); trasCambio(nA, xA); };
+}
+function hojaMov(i) {
+  const r = S.movilidad.rutinas[i];
+  abrir(`<h2>${r.n}</h2><p class="sub">Marca lo que hayas hecho.</p>${ORN}
+    ${r.ch.map((c, j) => `<button class="check crow ${c[1] ? 'on' : ''}" data-j="${j}" aria-pressed="${c[1]}"><span>${c[0]}</span><span class="box"></span></button>`).join('')}
+    <div class="actions"><button class="btn" id="ok">Guardar</button><button class="btn-2" id="no">Cancelar</button></div>`);
+  $('sheet').querySelectorAll('[data-j]').forEach((b) => { b.onclick = () => { b.classList.toggle('on'); b.setAttribute('aria-pressed', b.classList.contains('on')); }; });
+  $('no').onclick = cerrar;
+  $('ok').onclick = () => { const nA = vivo()[0], xA = xpAhora(); $('sheet').querySelectorAll('[data-j]').forEach((b) => { r.ch[Number(b.dataset.j)][1] = b.classList.contains('on'); }); cerrar(); trasCambio(nA, xA); };
+}
+function hojaDia(i) {
+  const d = S.pasos.dias[i];
+  abrir(`<h2>${DIAS_L[i]}</h2><p class="sub">Pasos del día. El escalón pide ${fmt(S.pasos.objDia)}.</p>${ORN}
+    <div class="frow"><span class="n">Pasos</span><span class="o">del reloj o a mano</span><input type="number" min="0" inputmode="numeric" id="ps" value="${d[0] ?? ''}" aria-label="Pasos"></div>
+    <button class="check crow ${d[1] ? 'on' : ''}" id="bien" aria-pressed="${d[1]}"><span>Día activo<br><small>cuenta para el objetivo y paga experiencia</small></span><span class="box"></span></button>
+    <div class="actions"><button class="btn" id="ok">Guardar</button><button class="btn-2" id="no">Cancelar</button></div>`);
+  $('bien').onclick = () => { $('bien').classList.toggle('on'); };
+  $('no').onclick = cerrar;
+  $('ok').onclick = () => { const nA = vivo()[0], xA = xpAhora(); const v = $('ps').value; d[0] = v === '' ? null : Number(v); d[1] = $('bien').classList.contains('on'); cerrar(); trasCambio(nA, xA); };
+}
+function hojaEvalElegir() {
+  abrir(`<h2>Qué evaluar</h2><p class="sub">Marca lo que quieras medir en cada evaluación. Lo de la plantilla ya viene marcado.</p>${ORN}
+    ${Object.entries(EVAL).map(([cat, items]) => `<p class="h">${cat}</p>${items.map((e) => `<button class="check crow ${S.evalActivos[e[0]] ? 'on' : ''}" data-e="${e[0]}" aria-pressed="${S.evalActivos[e[0]]}"><span>${e[0]} <small>${e[1]}</small></span><span class="box"></span></button>`).join('')}`).join('')}
+    <p class="h">Propia</p>
+    <div class="frow" style="grid-template-columns:1fr 90px"><input type="text" id="ev-n" placeholder="Salto vertical" aria-label="Nombre" style="text-align:left;font-family:var(--sans)"><input type="text" id="ev-u" placeholder="cm" aria-label="Unidad"></div>
+    <div class="actions"><button class="btn" id="ok">Guardar</button><button class="btn-2" id="no">Cancelar</button></div>`);
+  $('sheet').querySelectorAll('[data-e]').forEach((b) => { b.onclick = () => { b.classList.toggle('on'); b.setAttribute('aria-pressed', b.classList.contains('on')); }; });
+  $('no').onclick = cerrar;
+  $('ok').onclick = () => {
+    $('sheet').querySelectorAll('[data-e]').forEach((b) => { S.evalActivos[b.dataset.e] = b.classList.contains('on'); });
+    const n = $('ev-n').value.trim(); if (n) { EVAL['Habilidades'].push([n, $('ev-u').value.trim() || '', '—', 'sin dato', true]); S.evalActivos[n] = true; }
+    cerrar(); guardar(); renderPersonaje();
+  };
+}
+function hojaEvalCada() {
+  const opciones = [[2, 'Cada 2 semanas', 'para ver cambios rápidos'], [4, 'Cada 4 semanas', 'una vez al mes'], [6, 'Cada 6 semanas', ''], [8, 'Cada 8 semanas', 'lo que trae la plantilla'], [12, 'Cada 12 semanas', 'cada trimestre'], [0, 'Solo cuando yo quiera', 'sin aviso; la haces desde Personaje']];
+  abrir(`<h2>Cada cuánto evalúas</h2><p class="sub">Te avisa cuando toque. Puedes cambiarlo cuando quieras.</p>${ORN}
+    ${opciones.map((o) => `<button class="check crow ${S.evalCada === o[0] ? 'on' : ''}" data-cada="${o[0]}" aria-pressed="${S.evalCada === o[0]}"><span>${o[1]}${o[2] ? ` <small>${o[2]}</small>` : ''}</span><span class="box"></span></button>`).join('')}
+    <div class="actions"><button class="btn" id="ok">Guardar</button><button class="btn-2" id="no">Cancelar</button></div>`);
+  const filas = () => Array.from($('sheet').querySelectorAll('[data-cada]'));
+  filas().forEach((b) => { b.onclick = () => filas().forEach((x) => { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on); }); });
+  $('no').onclick = cerrar;
+  $('ok').onclick = () => { const on = filas().find((b) => b.classList.contains('on')); if (on) S.evalCada = Number(on.dataset.cada); cerrar(); guardar(); renderPersonaje(); renderStats(); };
+}
+function hojaPlantillas() {
+  abrir(`<h2>Plantillas</h2><p class="sub">Un punto de partida. Todo se edita después.</p>${ORN}
+    <div class="list">${PLANTILLAS.map((p, i) => `<button class="tpl ${i === 0 ? 'on' : ''}" data-act-t="${i}"><p class="t"><span>${p[0]}</span><span>${i === 0 ? 'activa' : ''}</span></p><p class="d">${p[1]}</p><p class="b">${p[2]}</p></button>`).join('')}</div>
+    <div class="actions" style="grid-template-columns:1fr"><button class="btn-2" id="no">Cerrar</button></div>`);
+  $('no').onclick = cerrar;
+  $('sheet').querySelectorAll('[data-act-t]').forEach((b) => { b.onclick = () => hojaPronto('Cambiar de plantilla'); });
+}
+function hojaNuevoPersonal() {
+  abrir(`<h2>Logro personal</h2><p class="sub">Algo que solo tú sabes cuándo pasa.</p>${ORN}
+    <div class="frow" style="grid-template-columns:1fr"><input type="text" id="np-n" placeholder="Correr 10 km sin parar" aria-label="Nombre" style="text-align:left;font-family:var(--sans)"></div>
+    <div class="frow" style="grid-template-columns:1fr auto 1fr"><span class="n">Categoría</span><span></span><select id="np-c">${Object.keys(S.personales).map((c) => `<option>${c}</option>`).join('')}</select></div>
+    <div class="frow"><span class="n">Puntos</span><span class="o">de 100 a 50.000</span><input type="number" id="np-p" value="300" inputmode="numeric" aria-label="Puntos"></div>
+    <div class="actions"><button class="btn" id="ok">Guardar</button><button class="btn-2" id="no">Cancelar</button></div>`);
+  $('no').onclick = cerrar;
+  $('ok').onclick = () => { const n = $('np-n').value.trim(); if (!n) { $('np-n').focus(); return; } S.personales[$('np-c').value][n] = [Number($('np-p').value) || 300, false, 'tuyo']; cerrar(); guardar(); renderLogros(); };
+}
+function hojaPronto(txt) {
+  abrir(`<h2>${txt}</h2><p class="sub">Esta pantalla no está en el prototipo. En la app sí estará.</p>${ORN}<div class="actions" style="grid-template-columns:1fr"><button class="btn" id="ok">Entendido</button></div>`);
+  $('ok').onclick = cerrar;
+}
+
+function hojaCierre() {
+  const r = resumen();
+  const prog = [['Calistenia', `E${S.calistenia.esc} a E${S.calistenia.esc + 1}`], ['Correr', `${S.correr.objKm} a ${S.correr.objKm + 1} km`], ['Fuerza, empuje', 'E6 a E7'], ['Fuerza, tirón', 'E5 a E6'], ['Fuerza, pierna', 'E4 a E5'], ['Pasos', `${fmt(S.pasos.objDia)} a ${fmt(S.pasos.objDia + 1000)}`], ['Desarrollo personal', '30 a 40 min']];
+  const extra = 200 + (r.bad === 0 ? 400 : 0);
+  abrir(`<h2>Cerrar la semana ${S.semana}</h2><p class="sub">Así queda antes de pasar página.</p>${ORN}
+    <div class="summary">
+      <div class="metric" style="border-color:var(--vd)"><p class="v num" style="color:var(--vd-lit)">${r.ok}</p><p class="k">hechas</p></div>
+      <div class="metric"><p class="v num">${r.try}</p><p class="k">a medias</p></div>
+      <div class="metric" style="border-color:var(--bad)"><p class="v num" style="color:var(--bad-lit)">${r.bad}</p><p class="k">sin hacer</p></div>
+    </div>
+    <div class="ledger">
+      ${r.lineas.map((l) => `<div><span>${l[0]}</span><span class="plus num">+${l[1]}</span></div>`).join('')}
+      ${r.objetivos.length ? `<div><span>Objetivos semanales cumplidos: ${r.objetivos.join(', ').toLowerCase()}</span><span class="plus num">+${r.bonus}</span></div>` : ''}
+      <div><span>Logro: semanas cerradas, bronce</span><span class="plus num">+200</span></div>
+      ${r.bad === 0 ? '<div><span>Logro: semana perfecta</span><span class="plus num">+400</span></div>' : ''}
+      <div><span>Sin hacer (restan la mitad de lo que pagaban)</span><span class="minus num">−${r.penal}</span></div>
+      <div class="tot"><span>Total</span><span class="num">${r.total + extra >= 0 ? '+' : ''}${fmt(r.total + extra)}</span></div>
+    </div>
+    <p class="h">Subir escalón</p>
+    <p class="hint">Hasta dos por semana. Nunca sube solo: lo decides tú cuando te ves listo.</p>
+    <div class="steps-pick">${prog.map((p, i) => `<button class="check crow" data-p="${i}" aria-pressed="false"><span>${p[0]}<small style="display:block">${p[1]}</small></span><span class="box"></span></button>`).join('')}</div>
+    <div class="actions"><button class="btn" id="ok">Cerrar y abrir la semana ${S.semana + 1}</button><button class="btn-2" id="no">Cancelar</button></div>`);
+  const picks = () => Array.from($('sheet').querySelectorAll('[data-p]'));
+  picks().forEach((b) => { b.onclick = () => { const on = picks().filter((x) => x.classList.contains('on')).length; if (!b.classList.contains('on') && on >= 2) return; b.classList.toggle('on'); b.setAttribute('aria-pressed', b.classList.contains('on')); const full = picks().filter((y) => y.classList.contains('on')).length >= 2; picks().forEach((x) => x.classList.toggle('off', !x.classList.contains('on') && full)); }; });
+  $('no').onclick = cerrar;
+  $('ok').onclick = () => { const subidas = picks().filter((b) => b.classList.contains('on')).map((b) => prog[Number(b.dataset.p)][0]); ejecutarCierre(r, subidas); };
+}
+
+function ejecutarCierre(r, subidas) {
+  const logros = [['Semanas cerradas', 'bronce', 200]];
+  if (r.bad === 0) logros.push(['Semana perfecta', 'bronce', 400]);
+  const total = r.total + logros.reduce((a, l) => a + l[2], 0);
+  const antes = S.nivel;
+  let xp = S.xpBase + total, nivel = S.nivel;
+  while (xp >= coste(nivel)) { xp -= coste(nivel); nivel++; }
+  while (xp < 0 && nivel > 0) { nivel--; xp += coste(nivel); }
+  if (xp < 0) xp = 0;
+  // La animación repasa la semana entera desde donde empezó (nivel y barra del lunes), aunque el nivel ya haya subido en vivo.
+  const estadoCon = (acum) => estadoDesde(S.nivel, acum);
+  abrir(`<h2>Semana ${S.semana} cerrada</h2>${ORN}
+    <div class="count"><span class="k">experiencia de la semana</span><span class="big num" id="cnt">0</span></div>
+    <div class="ca" id="ca">
+      <div id="ca-emb">${emblema(S.nivel)}</div>
+      <p class="lv" id="ca-lv">Nivel ${S.nivel}</p><p class="tt" id="ca-tt">${TITULOS[S.nivel]}</p>
+      <div class="xp"><i id="ca-bar" style="width:${(S.xpBase / coste(S.nivel) * 100).toFixed(1)}%"></i><span class="notch">${notches}</span></div>
+      <div class="xp-txt"><span class="num" id="ca-xp">${fmt(S.xpBase)} de ${fmt(coste(S.nivel))}</span><span id="ca-next">siguiente: <b>${TITULOS[S.nivel + 1]}</b></span></div>
+      <p class="msg" id="ca-msg"></p>
+      ${subidas.length ? `<p class="hint" style="margin-top:8px;color:var(--br)">Escalón arriba: ${subidas.join(', ').toLowerCase()}</p>` : ''}
+    </div>
+    <div class="actions" style="grid-template-columns:1fr"><button class="btn" id="ok">Empezar la semana ${S.semana + 1}</button></div>`, false);
+  // La cifra cuenta y la barra se llena a la vez; cada nivel que cruza suma tiempo para que se vea llenarse, vaciarse y empezar de nuevo.
+  const el = $('cnt'), ca = $('ca'); let nivelVisto = S.nivel;
+  const pinta = (acum) => {
+    const [n, x] = estadoCon(acum);
+    $('ca-bar').style.width = `${(x / coste(n) * 100).toFixed(1)}%`;
+    $('ca-xp').textContent = `${fmt(Math.round(x))} de ${fmt(coste(n))}`;
+    if (n !== nivelVisto) {
+      nivelVisto = n;
+      $('ca-lv').textContent = `Nivel ${n}`; $('ca-tt').textContent = TITULOS[n]; $('ca-next').innerHTML = `siguiente: <b>${TITULOS[n + 1]}</b>`; $('ca-emb').innerHTML = emblema(n);
+      ca.classList.remove('bump'); void ca.offsetWidth; ca.classList.add('bump');
+    }
+  };
+  const fin = () => {
+    const m = $('ca-msg');
+    if (nivel > antes) m.textContent = nivel - antes > 1 ? `Subes ${nivel - antes} niveles: ${TITULOS[nivel]}` : `Subes de nivel: ${TITULOS[nivel]}`;
+    else if (nivel < antes) { m.textContent = `Bajas al nivel ${nivel}: ${TITULOS[nivel]}`; m.classList.add('down'); }
+    else { m.textContent = `Faltan ${fmt(coste(nivel) - xp)} para ${TITULOS[nivel + 1]}.`; m.classList.add('same'); }
+    m.classList.add('on');
+  };
+  const reducido = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reducido) { el.textContent = (total >= 0 ? '+' : '') + fmt(total); pinta(S.xpBase + total); fin(); }
+  else {
+    const t0 = performance.now(), dur = 1600 + 900 * Math.abs(nivel - antes);
+    const tick = (t) => {
+      const p = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - p, 2.2);
+      el.textContent = (total >= 0 ? '+' : '') + fmt(Math.round(total * e)); pinta(S.xpBase + total * e);
+      if (p < 1) requestAnimationFrame(tick); else fin();
+    };
+    requestAnimationFrame(tick);
+  }
+  setTimeout(() => logros.forEach((l, i) => setTimeout(() => trofeo(`${l[0]}, ${l[1]}`, `+${l[2]} de experiencia`), i * 700)), 600);
+  $('ok').onclick = () => {
+    S.historia.push(total); S.niveles.push(antes);
+    S.semana++; S.nivel = nivel; S.xpBase = xp;
+    if (subidas.includes('Calistenia')) S.calistenia.esc++;
+    if (subidas.includes('Correr')) S.correr.objKm++;
+    if (subidas.includes('Pasos')) { S.pasos.esc++; S.pasos.objDia += 1000; }
+    if (subidas.includes('Desarrollo personal')) S.desarrollo.esc++;
+    S.fuerza.rutinas.forEach((rt) => { const sube = subidas.includes('Fuerza, ' + rt.n.toLowerCase()); if (sube) rt.esc++; rt.ej.forEach((e) => { e[2] = null; if (sube) e[1] = Math.round(e[1] * 1.1); }); });
+    S.calistenia.slots = S.calistenia.slots.map(() => null); S.correr.km = null;
+    S.movilidad.rutinas.forEach((rt) => rt.ch.forEach((c) => { c[1] = false; }));
+    S.pasos.dias = S.pasos.dias.map(() => [null, false]);
+    S.desarrollo.slots.forEach((s) => { s[2] = null; });
+    S.mision = { texto: 'Haz una sesión de movilidad extra antes de dormir', tier: 'fácil', pts: 100, ok: false };
+    cerrar(); guardar(); renderTodo(); ir('semana');
+  };
+}
+
+function trofeo(nombre, detalle) {
+  const t = document.createElement('div'); t.className = 'toast';
+  t.innerHTML = `<div class="ico"><svg viewBox="0 0 24 24"><path d="M7 4h10v4a5 5 0 0 1-10 0z"/><path d="M7 6H4v1a3 3 0 0 0 3 3M17 6h3v1a3 3 0 0 1-3 3M12 13v4M9 20h6"/></svg></div><div><p class="k">Logro conseguido</p><p class="n">${nombre}</p><p class="d">${detalle}</p></div>`;
+  $('toasts').appendChild(t); setTimeout(() => t.remove(), 6200);
+}
+
+// --- Navegación y acciones ---
+function ir(tab) {
+  document.querySelectorAll('.screen').forEach((s) => s.classList.toggle('on', s.id === tab));
+  document.querySelectorAll('nav.tabs button').forEach((b) => b.classList.toggle('on', b.dataset.tab === tab));
+  window.scrollTo({ top: 0 });
+}
+document.querySelector('nav.tabs').addEventListener('click', (e) => { const b = e.target.closest('[data-tab]'); if (b) ir(b.dataset.tab); });
+$('brand').onclick = () => ir('semana');
+function mostrarDelta(pts) {
+  const d = $('xp-delta'); if (!d || !pts) return;
+  d.textContent = (pts > 0 ? '+' : '') + pts; d.style.color = pts > 0 ? 'var(--vd-lit)' : 'var(--bad-lit)'; d.classList.add('on');
+  setTimeout(() => d.classList.remove('on'), 1600);
+}
+// Si al marcar algo la barra se llena (o se vacía al desmarcar), el nivel cambia al momento: bote del anillo y aviso arriba.
+function trasCambio(nivelAntes, xpAntes) {
+  guardar(); refrescar(); mostrarDelta(xpAhora() - xpAntes);
+  const n = vivo()[0]; if (n === nivelAntes) return;
+  const ring = $('ring'); if (ring) { ring.classList.remove('bump'); void ring.offsetWidth; ring.classList.add('bump'); }
+  ventanaNivel(n, n > nivelAntes);
+}
+// Ventana centrada por delante de todo cuando el nivel cambia en vivo.
+function ventanaNivel(n, sube) {
+  abrir(`<div class="lvlwin ${sube ? '' : 'down'}">
+      <p class="k">${sube ? 'Subes de nivel' : 'Bajas de nivel'}</p>
+      ${emblema(n)}
+      <p class="lv">Nivel ${n}</p><p class="tt">${TITULOS[n]}</p>
+      <p class="hint">${sube ? `Lo que quede sin hacer al cerrar la semana puede restarlo. Siguiente: ${TITULOS[n + 1]}.` : 'Se recupera en cuanto vuelvas a marcar lo hecho.'}</p>
+      <button class="btn" id="ok">Seguir</button>
+    </div>`, true, true);
+  $('ok').onclick = cerrar;
+}
+function accion(e) {
+  const el = e.target.closest('[data-act]'); if (!el) return;
+  const act = el.dataset.act, i = Number(el.dataset.i), antes = xpAhora(), nivelAntes = vivo()[0];
+  if (act === 'cal') { const s = S.calistenia.slots; s[i] = s[i] === null ? 'ok' : s[i] === 'ok' ? 'try' : null; }
+  else if (act === 'dp') { const s = S.desarrollo.slots[i]; s[2] = s[2] === null ? 'ok' : s[2] === 'ok' ? 'try' : null; }
+  else if (act === 'mision') { S.mision.ok = !S.mision.ok; }
+  else if (act === 'fuerza') return hojaFuerza(i);
+  else if (act === 'mov') return hojaMov(i);
+  else if (act === 'dia') return hojaDia(i);
+  else if (act === 'cierre') return hojaCierre();
+  else if (act === 'blk') { bloqueAbierto = el.dataset.b; try { localStorage.setItem('wq-bloque', bloqueAbierto); } catch {} return renderSemana(); }
+  else if (act === 'pick') { const k = el.dataset.b; E.sel = E.sel.includes(k) ? E.sel.filter((x) => x !== k) : [...E.sel, k]; return renderEntrada(); }
+  else if (act === 'e-go') { if (!E.sel.length) return; E.paso = 0; return renderEntrada(); }
+  else if (act === 'e-close') return cerrarEntrada();
+  else if (act === 'e-back') { E.paso--; return renderEntrada(); }
+  else if (act === 'e-next') { if (E.paso >= E.sel.length - 1) return cerrarEntrada(); E.paso++; return renderEntrada(); }
+  else if (act === 'tab-logros') { tabLogros = el.dataset.t; return renderLogros(); }
+  else if (act === 'personal') { const v = S.personales[el.dataset.c][el.dataset.n]; v[1] = !v[1]; guardar(); renderLogros(); if (v[1]) trofeo(el.dataset.n, `+${v[0]} de experiencia`); return; }
+  else if (act === 'nuevo-personal') return hojaNuevoPersonal();
+  else if (act === 'eval-elegir') return hojaEvalElegir();
+  else if (act === 'eval') return hojaPronto('Hacer la evaluación');
+  else if (act === 'plantillas') return hojaPlantillas();
+  else if (act === 'tema') { aplicarTema(el.dataset.t); return renderMas(); }
+  else if (act === 'soon') return hojaPronto(el.querySelector('.t').firstChild.textContent.trim());
+  else if (act === 'reset') { S = estadoInicial(); guardar(); renderTodo(); ir('semana'); return; }
+  else if (act === 'eval-cada') return hojaEvalCada();
+  else if (act === 'add-g') return hojaGraficas();
+  else if (act === 'quitar-g') { S.graficas = S.graficas.filter((k) => k !== el.dataset.g); guardar(); return renderStats(); }
+  else return;
+  trasCambio(nivelAntes, antes);
+}
+function cambio(e) {
+  if (e.target.classList.contains('km')) { const antes = xpAhora(), nivelAntes = vivo()[0]; S.correr.km = e.target.value === '' ? null : Number(e.target.value); trasCambio(nivelAntes, antes); }
+}
+for (const raiz of [document.querySelector('main'), $('entry')]) { raiz.addEventListener('click', accion); raiz.addEventListener('change', cambio); }
+renderTodo();
+abrirEntrada();
+</script>
+</body>
+</html>
