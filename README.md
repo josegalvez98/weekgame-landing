@@ -1,4 +1,4 @@
-# WeekQuest, landing de la lista de espera
+# WeekGame, landing de la lista de espera
 
 Una sola página estática (`index.html`), bilingüe (español / inglés con selector y `?lang=es` / `?lang=en`),
 con formulario de email en Formspree y capturas del prototipo. Se publica en Cloudflare (Workers & Pages) desde este repositorio: https://weekquest.jose98vk.workers.dev/

@@ -3,9 +3,9 @@ import puppeteer from 'puppeteer-core';
 import fs from 'node:fs';
 import path from 'node:path';
 
-const RAIZ = 'D:/Escritorio/Proyectos/futuras apps';
-const proto = fs.readFileSync(path.join(RAIZ, 'leonidas/prototipo/weekquest.html'), 'utf8');
-const tmp = path.join(process.cwd(), 'proto-index.html');
+const RAIZ = 'D:/Escritorio/Proyectos/5.WeekGame';
+const proto = fs.readFileSync(path.join(RAIZ, 'app/weekgame.html'), 'utf8');
+const tmp = path.join(RAIZ, 'landing/prototipo/proto-index.html'); // junto a img/ para que carguen los retratos
 fs.writeFileSync(tmp, `<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body>${proto}</body></html>`);
 const salida = path.join(RAIZ, 'landing/capturas'); // uso: npm i puppeteer-core && node capturas.mjs
 
@@ -28,5 +28,5 @@ await page.screenshot({ path: path.join(salida, 'personaje.png') });
 await page.evaluate(() => ir('logros'));
 await new Promise((r) => setTimeout(r, 300));
 await page.screenshot({ path: path.join(salida, 'logros.png') });
-await browser.close();
+await browser.close(); fs.unlinkSync(tmp);
 console.log('ok', fs.readdirSync(salida));

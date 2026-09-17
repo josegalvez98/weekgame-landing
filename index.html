@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>WeekQuest</title>
+<title>WeekGame</title>
 <meta name="description" content="Tu entrenamiento, como un juego de rol por semanas. Objetivos propios o plantillas, sin rachas. Lista de espera abierta.">
-<meta property="og:title" content="WeekQuest">
+<meta property="og:title" content="WeekGame">
 <meta property="og:description" content="Tu entrenamiento, como un juego de rol por semanas. Sin rachas, sin castigos, sin brillos.">
 <meta property="og:image" content="capturas/semana.png">
 <meta property="og:type" content="website">
@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap">
 <style>
-/* WeekQuest, landing de la lista de espera. Misma identidad que el prototipo, tema Cobalto:
+/* WeekGame, landing de la lista de espera. Misma identidad que el prototipo, tema Cobalto:
    cobalto para lo que avanza, grafito para el rango, esquinas achaflanadas solo en lo que se toca. */
 :root{
   --bg:#F2F2EF; --sur:#FBFBF9; --sur-2:#FFFFFF; --deep:#E6E6E1;
@@ -108,7 +108,7 @@ footer p+p{margin-top:8px}
 
 <div class="wrap">
   <header class="top">
-    <a class="brand" href="./">Week<b>Quest</b></a>
+    <a class="brand" href="./">Week<b>Game</b></a>
     <div class="lang" role="group" aria-label="Idioma / Language">
       <button type="button" data-lang="es">Español</button>
       <button type="button" data-lang="en">English</button>
@@ -129,7 +129,7 @@ footer p+p{margin-top:8px}
       </div>
       <input type="hidden" name="lang" value="es">
       <input type="hidden" name="de" value="">
-      <input type="hidden" name="_subject" value="WeekQuest: nuevo apuntado">
+      <input type="hidden" name="_subject" value="WeekGame: nuevo apuntado">
       <label class="gotcha" aria-hidden="true">No rellenar <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label>
       <p class="note" data-t="note"></p>
       <p class="msg" role="status"></p>
@@ -182,7 +182,7 @@ footer p+p{margin-top:8px}
         </div>
         <input type="hidden" name="lang" value="es">
         <input type="hidden" name="de" value="">
-        <input type="hidden" name="_subject" value="WeekQuest: nuevo apuntado">
+        <input type="hidden" name="_subject" value="WeekGame: nuevo apuntado">
         <label class="gotcha" aria-hidden="true">No rellenar <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label>
         <p class="note" data-t="note"></p>
         <p class="msg" role="status"></p>
@@ -229,10 +229,10 @@ const T = {
     f4p: 'Dos colores por tema, sin dorados ni destellos. Varios temas para elegir; el que ves es Cobalto.',
     againt: 'Sé de los primeros en probarla.',
     againp: 'Déjanos tu correo y te avisaremos cuando abra la beta.',
-    foot1: 'WeekQuest está en desarrollo. Los apuntados a la lista probarán la beta antes que nadie.',
+    foot1: 'WeekGame está en desarrollo. Los apuntados a la lista probarán la beta antes que nadie.',
     foot2: 'Privacidad: el correo se guarda en Formspree y solo se usa para avisarte del lanzamiento. Para borrarlo, responde a cualquier correo.',
     ph: 'tu@correo.com',
-    sub: 'WeekQuest: nuevo apuntado',
+    sub: 'WeekGame: nuevo apuntado',
   },
   en: {
     kicker: 'Waiting list open',
@@ -262,10 +262,10 @@ const T = {
     f4p: 'Two colours per theme, no gold, no sparkle. Several themes to pick from; the one you see is Cobalt.',
     againt: 'Be among the first to try it.',
     againp: 'Leave your email and we will let you know when the beta opens.',
-    foot1: 'WeekQuest is in development. People on the list will try the beta before anyone else.',
+    foot1: 'WeekGame is in development. People on the list will try the beta before anyone else.',
     foot2: 'Privacy: your email is stored at Formspree and only used to tell you about the launch. Reply to any email to have it deleted.',
     ph: 'you@email.com',
-    sub: 'WeekQuest: new signup',
+    sub: 'WeekGame: new signup',
   },
 };
 
@@ -282,7 +282,7 @@ function aplicar(l) {
   lang = l;
   const t = T[l];
   document.documentElement.lang = l;
-  document.title = 'WeekQuest';
+  document.title = 'WeekGame';
   document.querySelectorAll('[data-t]').forEach((el) => { el.textContent = t[el.dataset.t]; });
   document.querySelectorAll('[data-ph]').forEach((el) => { el.placeholder = t[el.dataset.ph]; });
   document.querySelectorAll('[data-alt]').forEach((el) => { el.alt = t[el.dataset.alt]; });
