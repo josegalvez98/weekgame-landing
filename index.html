@@ -9,6 +9,20 @@
 <meta property="og:description" content="Tu entrenamiento es un juego. Sube de nivel cada semana.">
 <meta property="og:image" content="https://weekgame.jose98vk.workers.dev/capturas/semana.png">
 <meta name="theme-color" content="#120A1E">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+ {"@type":"SoftwareApplication","name":"WeekGame","applicationCategory":"HealthApplication","operatingSystem":"iOS, Android","url":"https://weekgame.jose98vk.workers.dev/",
+  "description":"App de entrenamiento gamificada por semanas: te pones objetivos semanales (sesiones, kilómetros, hábitos), los apuntas en tres toques y la semana entera sube tu nivel. Sin rachas. Personaje que sube de grado, títulos, temas Anime, Ceniza y Gimnasio. En beta cerrada con lista de espera y prototipo público.",
+  "offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"inLanguage":["es","en"],"author":{"@type":"Person","name":"Jose Gálvez"}},
+ {"@type":"FAQPage","mainEntity":[
+  {"@type":"Question","name":"¿Qué es WeekGame?","acceptedAnswer":{"@type":"Answer","text":"Una app que convierte tu entrenamiento en un juego por semanas: defines objetivos semanales (3 sesiones de fuerza, 5 km, 2 lecturas…), apuntas lo que haces en tres toques y al cerrar la semana ganas experiencia y subes de nivel. Tu personaje cambia de aspecto cada diez niveles."}},
+  {"@type":"Question","name":"¿En qué se diferencia de una app de hábitos con rachas?","acceptedAnswer":{"@type":"Answer","text":"No hay rachas ni contador a cero. WeekGame cuenta semanas: una semana floja resta algo de experiencia y la siguiente lo recupera. Nunca pierdes meses de progreso por un mal día."}},
+  {"@type":"Question","name":"¿Para quién es?","acceptedAnswer":{"@type":"Answer","text":"Para gente que entrena por su cuenta (calistenia, correr, gimnasio, movilidad) y quiere una motivación tipo juego de rol sin la ansiedad de las rachas. También sirve para hábitos no deportivos, como lectura o meditación."}},
+  {"@type":"Question","name":"¿Es gratis? ¿Cuándo sale?","acceptedAnswer":{"@type":"Answer","text":"Está en beta cerrada. Hay una lista de espera gratuita y un prototipo clicable público sin registro en weekgame.jose98vk.workers.dev/prototipo/. Saldrá para iOS y Android; la versión base será gratuita."}},
+  {"@type":"Question","name":"¿Qué temas visuales tiene?","acceptedAnswer":{"@type":"Answer","text":"Anime (tinta y papel), Ceniza (fantasía sombría), Gimnasio (hierro y tiza) y Minimalista. Cada tema cambia el personaje, los títulos de nivel, los colores y hasta el nombre de la experiencia."}}
+ ]}
+]}
+</script>
 <link rel="icon" href="icono.png">
 <link rel="apple-touch-icon" href="icono.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -208,6 +222,12 @@ footer a{color:var(--txt-2)}
   </div>
 </div></section>
 
+<!-- Preguntas -->
+<section><div class="wrap">
+  <h2 data-t="faqT"></h2>
+  <div class="facts" id="faq"></div>
+</div></section>
+
 <!-- Beta -->
 <section class="beta" id="beta"><div class="wrap">
   <h2 data-t="betaT"></h2>
@@ -274,6 +294,15 @@ const T = {
     f3p: 'Los acumulados (flexiones, kilómetros, libros) pasan de bronce a oro. Los personales los creas tú: una meta, un reto, una fecha.',
     f4t: 'Reta a tus amigos',
     f4p: 'Comparte tu semana y lánzales retos: mismo objetivo, cada uno a su nivel.',
+    faqT: 'Preguntas que nos hacen.',
+    faq: [
+      ['¿Qué es WeekGame?', 'Una app que convierte tu entrenamiento en un juego por semanas: te pones objetivos semanales, apuntas lo que haces en tres toques y al cerrar la semana subes de nivel. Tu personaje cambia cada diez niveles.'],
+      ['¿Y las rachas?', 'No hay. Cuenta semanas: una floja resta algo de experiencia y la siguiente lo recupera. Nunca pierdes meses por un mal día.'],
+      ['¿Para quién es?', 'Para quien entrena por su cuenta (calistenia, correr, gimnasio, movilidad) y quiere motivación de juego de rol sin ansiedad. Vale también para leer, meditar o estudiar.'],
+      ['¿Es gratis? ¿Cuándo sale?', 'Está en beta cerrada. La lista de espera es gratis y el prototipo es público y sin registro. Saldrá para iOS y Android; la base será gratuita.'],
+      ['¿Guarda mis datos?', 'La app guardará todo en tu móvil. El único dato que pedimos ahora es tu correo, y solo para avisarte.'],
+      ['¿Quién la hace?', 'Una persona, en España, que lleva años entrenando con un sistema propio de niveles y lo está convirtiendo en app. Todo lo que ves es real, incluida la lista de lo que aún no está.'],
+    ],
     betaT: 'Sé de los primeros en jugar.',
     betaP: 'Déjanos tu correo y te avisamos cuando abra la beta. Mientras, el prototipo es tuyo.',
     label: 'Tu correo',
@@ -323,6 +352,15 @@ const T = {
     f3p: 'Accumulated ones (push-ups, kilometres, books) go from bronze to gold. Personal ones you create: a goal, a challenge, a date.',
     f4t: 'Challenge your friends',
     f4p: 'Share your week and send them challenges: same goal, each at their own level.',
+    faqT: 'Questions we get asked.',
+    faq: [
+      ['What is WeekGame?', 'An app that turns your training into a week-by-week game: set weekly goals, log what you do in three taps and level up when the week closes. Your character changes every ten levels.'],
+      ['What about streaks?', 'There are none. It counts weeks: a weak week costs a bit of experience and the next one earns it back. You never lose months to one bad day.'],
+      ['Who is it for?', 'People who train on their own (calisthenics, running, gym, mobility) and want RPG-style motivation without the anxiety. Works for reading, meditation or study too.'],
+      ['Is it free? When does it ship?', 'It is in closed beta. The waiting list is free and the prototype is public with no sign-up. It will ship for iOS and Android; the base will be free.'],
+      ['Does it keep my data?', 'The app will store everything on your phone. The only thing we ask for now is your email, and only to let you know.'],
+      ['Who makes it?', 'One person, in Spain, who has trained for years with a home-made level system and is turning it into an app. Everything you see is real, including the list of what is not built yet.'],
+    ],
     betaT: 'Be among the first to play.',
     betaP: 'Leave your email and we will tell you when the beta opens. Until then, the prototype is yours.',
     label: 'Your email',
@@ -358,6 +396,7 @@ function aplicar(l) {
   document.querySelectorAll('.lang button').forEach((b) => b.classList.toggle('on', b.dataset.lang === l));
   document.getElementById('tiers').innerHTML = t.tiers.map((x, i) =>
     `<div class="tier"><div class="pic"><img src="prototipo/img/an-${i}.png" width="320" height="320" alt="" loading="lazy"></div><b>${x[0]}</b><small>${x[1]}</small></div>`).join('');
+  document.getElementById('faq').innerHTML = t.faq.map((q) => `<div class="panel"><h3>${q[0]}</h3><p>${q[1]}</p></div>`).join('');
   const url = new URL(location.href); url.searchParams.set('lang', l); history.replaceState(null, '', url);
   try { localStorage.setItem('wg-lang', l); } catch {}
 }

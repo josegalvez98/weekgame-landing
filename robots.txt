@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /prototipo/
+
+Sitemap: https://weekgame.jose98vk.workers.dev/sitemap.xml
