@@ -4,103 +4,132 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>WeekGame</title>
-<meta name="description" content="Tu entrenamiento, como un juego de rol por semanas. Objetivos propios o plantillas, sin rachas. Lista de espera abierta.">
+<meta name="description" content="Tu entrenamiento es un juego: objetivos por semana, escalones que subes tú y un personaje que sube de nivel contigo. Lista de espera de la beta.">
 <meta property="og:title" content="WeekGame">
-<meta property="og:description" content="Tu entrenamiento, como un juego de rol por semanas. Sin rachas, sin castigos, sin brillos.">
-<meta property="og:image" content="capturas/semana.png">
-<meta property="og:type" content="website">
-<meta name="theme-color" content="#F2F2EF">
+<meta property="og:description" content="Tu entrenamiento es un juego. Sube de nivel cada semana.">
+<meta property="og:image" content="https://weekgame.jose98vk.workers.dev/capturas/semana.png">
+<meta name="theme-color" content="#120A1E">
 <link rel="icon" href="icono.png">
+<link rel="apple-touch-icon" href="icono.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bangers&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
 <style>
-/* WeekGame, landing de la lista de espera. Misma identidad que el prototipo, tema Cobalto:
-   cobalto para lo que avanza, grafito para el rango, esquinas achaflanadas solo en lo que se toca. */
+/* WeekGame, landing de la lista de espera. Misma identidad que el tema Anime del prototipo:
+   negro violeta, títulos Bangers, paneles de papel con borde de tinta y sombra dura violeta. */
 :root{
-  --bg:#F2F2EF; --sur:#FBFBF9; --sur-2:#FFFFFF; --deep:#E6E6E1;
-  --line:#D3D3CC; --line-2:#BDBDB4;
-  --vd:#2C55C9; --vd-lit:#2447AD; --vd-dim:#C5D0F0; --vd-ghost:rgba(44,85,201,.11);
-  --br:#4A4E56; --br-lit:#33363D;
-  --txt:#1B1D21; --txt-2:#3C3F45; --txt-3:#6A6E75; --txt-4:#8F939A;
-  --bad:#B4463A; --on-vd:#F4F7FF;
-  --cut:polygon(9px 0,100% 0,100% calc(100% - 9px),calc(100% - 9px) 100%,0 100%,0 9px);
-  --cut-lg:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px);
-  --disp:Marcellus,'Trajan Pro',Georgia,serif;
-  --sans:'Alegreya Sans','Gill Sans','Segoe UI',system-ui,sans-serif;
-  color-scheme:light;
+  --bg:#120A1E; --bg-2:#1A1029; --deep:#0A0512;
+  --paper:#F6F4EE; --paper-2:#EFECE4; --ink:#15161C;
+  --vd:#7A3BFF; --vd-lit:#AB8BFF; --br:#D3242B;
+  --txt:#F4F4FA; --txt-2:#C9CBE0; --txt-3:#8E92B8;
+  --p-txt:#15161C; --p-txt-2:#33354A; --p-txt-3:#5F6280;
+  --disp:'Bangers',Impact,'Arial Narrow',sans-serif;
+  --sans:'Zen Kaku Gothic New','Noto Sans JP','Segoe UI',sans-serif;
+  color-scheme:dark;
 }
 *{box-sizing:border-box}
-html{background:var(--bg)}
-body{margin:0;background:var(--bg);color:var(--txt);font:400 19px/1.5 var(--sans);-webkit-font-smoothing:antialiased}
-img{max-width:100%;display:block}
-a{color:var(--vd)}
-h1,h2,h3{font-family:var(--disp);font-weight:400;margin:0;text-wrap:balance;line-height:1.15}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--txt);font-family:var(--sans);font-size:17px;line-height:1.6;
+  background-image:repeating-linear-gradient(115deg,transparent 0 46px,rgba(122,59,255,.07) 46px 48px);}
+a{color:inherit}
+img{display:block;max-width:100%;height:auto}
+h1,h2,h3{font-family:var(--disp);font-weight:400;letter-spacing:1px;line-height:1.02;margin:0;color:#fff;
+  text-shadow:3px 3px 0 var(--deep)}
+h1{font-size:clamp(44px,9vw,84px)}
+h2{font-size:clamp(34px,6vw,54px)}
+h3{font-size:24px;letter-spacing:.5px;text-shadow:none}
 p{margin:0}
-button,input{font:inherit}
-:focus-visible{outline:2px solid var(--vd);outline-offset:3px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+section{padding:56px 0}
+@media(min-width:760px){section{padding:88px 0}}
 
-.wrap{max-width:1040px;margin:0 auto;padding-inline:20px}
-.narrow{max-width:640px}
+/* Cabecera */
+.top{display:flex;justify-content:space-between;align-items:center;padding:18px 0}
+.brand{font-family:var(--disp);font-size:26px;letter-spacing:2px;text-decoration:none;text-shadow:2px 2px 0 var(--deep)}
+.brand b{font-weight:400;color:var(--vd-lit)}
+.lang{display:flex;border:2px solid #fff;background:var(--ink);transform:skewX(-6deg)}
+.lang button{font:600 14px/1 var(--sans);padding:9px 12px;border:0;background:none;color:#fff;cursor:pointer;transform:skewX(6deg)}
+.lang button.on{background:var(--vd)}
+.lang button:focus-visible,.btn:focus-visible,input:focus-visible{outline:3px solid var(--vd-lit);outline-offset:3px}
 
-/* Cabecera: marca y cambio de idioma */
-header.top{display:flex;align-items:center;justify-content:space-between;padding-block:22px 8px}
-.brand{font-family:var(--disp);font-size:26px;letter-spacing:.01em;color:var(--txt);text-decoration:none}
-.brand b{font-weight:400;color:var(--vd)}
-.lang{display:flex;gap:2px;border:1px solid var(--line);background:var(--sur);padding:2px}
-.lang button{border:0;background:none;padding:4px 10px;font-size:15px;color:var(--txt-3);cursor:pointer}
-.lang button.on{background:var(--vd);color:var(--on-vd)}
+/* Botones: los de la app, con la inclinación de viñeta */
+.btn{display:inline-block;font:400 20px/1 var(--disp);letter-spacing:1.5px;padding:15px 22px;border:2px solid #fff;
+  background:var(--ink);color:#fff;text-decoration:none;box-shadow:4px 4px 0 var(--vd);transform:skewX(-6deg);cursor:pointer}
+.btn>span{display:inline-block;transform:skewX(6deg)}
+.btn.vd{background:var(--vd);box-shadow:4px 4px 0 #fff}
+.btn:active{transform:skewX(-6deg) translate(2px,2px);box-shadow:2px 2px 0 var(--vd)}
+.btn.vd:active{box-shadow:2px 2px 0 #fff}
 
-/* Portada: tesis y formulario */
-.hero{padding-block:56px 40px}
-.hero .kicker{font-size:16px;color:var(--txt-3);margin-bottom:18px}
-.hero h1{font-size:clamp(34px,6vw,54px);letter-spacing:-.005em}
-.hero .lead{font-size:clamp(19px,2.3vw,22px);color:var(--txt-2);margin-top:22px;max-width:36em}
+/* Paneles de papel */
+.panel{background:var(--paper);color:var(--p-txt);border:2px solid var(--ink);box-shadow:5px 5px 0 var(--vd);padding:22px}
+.panel h3{color:var(--p-txt)}
+.panel p{color:var(--p-txt-2)}
 
-/* Formulario: un email, nada más */
-form.wait{margin-top:34px}
-form.wait label{display:block;font-size:16px;color:var(--txt-3);margin-bottom:8px}
-form.wait .row{display:flex;flex-wrap:wrap;gap:10px}
-form.wait input[type=email]{flex:1 1 240px;min-width:0;padding:13px 16px;border:1px solid var(--line-2);background:var(--sur-2);color:var(--txt);border-radius:0}
-form.wait input[type=email]::placeholder{color:var(--txt-4)}
-form.wait button{flex:0 0 auto;padding:13px 26px;border:0;background:var(--vd);color:var(--on-vd);clip-path:var(--cut);cursor:pointer;font-weight:500}
-form.wait button:hover{background:var(--vd-lit)}
-form.wait button[disabled]{opacity:.6;cursor:default}
-form.wait .note{font-size:15px;color:var(--txt-3);margin-top:12px}
-form.wait .msg{margin-top:12px;font-size:17px;display:none}
-form.wait .msg.ok{display:block;color:var(--vd-lit)}
-form.wait .msg.bad{display:block;color:var(--bad)}
-.gotcha{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+/* Móvil con la captura */
+.phone{border:3px solid var(--ink);border-radius:30px;overflow:hidden;background:var(--deep);box-shadow:8px 8px 0 var(--vd)}
+.phone img{width:100%}
 
-/* Ornamento de línea con rombo, como en el prototipo */
-.orn{display:flex;align-items:center;gap:14px;color:var(--line-2);margin-block:48px}
-.orn::before,.orn::after{content:"";flex:1;height:1px;background:var(--line)}
-.orn i{width:8px;height:8px;background:var(--line-2);transform:rotate(45deg)}
+/* Portada */
+.hero{padding-top:28px}
+.hero .grid{display:grid;gap:36px;align-items:center}
+@media(min-width:760px){.hero .grid{grid-template-columns:1.15fr .85fr;gap:56px}.hero{padding-top:48px}}
+.kicker{display:inline-block;font:700 14px/1 var(--sans);color:var(--ink);background:var(--vd-lit);padding:7px 10px;margin-bottom:18px;transform:skewX(-6deg)}
+.kicker span{display:inline-block;transform:skewX(6deg)}
+.lead{font-size:19px;color:var(--txt-2);max-width:34em;margin-top:18px}
+.cta{display:flex;flex-wrap:wrap;gap:16px 20px;margin-top:28px}
+.hero .phone{max-width:340px;margin:0 auto}
 
-/* Tres pantallas, tres frases */
-.three{display:grid;grid-template-columns:repeat(3,1fr);gap:36px 28px}
-.shot{border:1px solid var(--line);background:var(--sur);clip-path:var(--cut-lg);padding:10px 10px 0;aspect-ratio:390/620;overflow:hidden}
-.shot img{width:100%;object-fit:cover;object-position:top;height:100%}
-.three h2{font-size:26px;margin-top:20px}
-.three p{color:var(--txt-2);margin-top:10px;max-width:30em}
-@media (max-width:760px){
-  .three{grid-template-columns:1fr;gap:44px}
-  .shot{max-width:390px;margin-inline:auto}
-}
+/* Personaje: los seis retratos, en fila */
+.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:32px}
+@media(min-width:760px){.tiers{grid-template-columns:repeat(6,1fr)}}
+.tier{text-align:center}
+.tier .pic{aspect-ratio:1;display:grid;place-items:center;background:radial-gradient(circle at 50% 60%,rgba(122,59,255,.28),transparent 68%)}
+.tier img{width:88%;filter:drop-shadow(0 6px 10px rgba(0,0,0,.6))}
+.tier b{display:block;font:400 20px/1.1 var(--disp);letter-spacing:1px;margin-top:8px}
+.tier small{display:block;font-size:13px;color:var(--txt-3)}
 
-/* Lo que ya está decidido del producto */
-.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:22px 32px;margin-top:40px}
-.facts h3{font-size:21px}
-.facts p{color:var(--txt-2);margin-top:6px;font-size:18px}
+/* Cómo funciona: tres pasos en orden, cada uno con su pantalla */
+.steps{display:grid;gap:28px;margin-top:32px}
+@media(min-width:760px){.steps{grid-template-columns:repeat(3,1fr);gap:24px}}
+.step .phone{max-width:280px;margin:0 auto 18px}
+.step .n{font:400 44px/1 var(--disp);color:var(--vd-lit);text-shadow:3px 3px 0 var(--deep)}
+.step h3{margin-top:6px}
+.step p{margin-top:8px;color:var(--txt-2)}
 
-/* Cierre y pie */
-.again{background:var(--sur);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding-block:44px;margin-top:56px}
-.again h2{font-size:30px}
-footer{padding-block:32px 48px;font-size:15px;color:var(--txt-3)}
+/* Temas */
+.themes{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:32px}
+@media(min-width:760px){.themes{gap:24px}}
+.theme .phone{border-width:2px;border-radius:18px;box-shadow:4px 4px 0 var(--vd)}
+.theme b{display:block;font:400 22px/1.1 var(--disp);letter-spacing:1px;margin-top:12px;text-align:center}
+.themes-note{margin-top:20px;color:var(--txt-3);font-size:15px;text-align:center}
+
+/* Cuatro cosas decididas */
+.facts{display:grid;gap:16px;margin-top:32px}
+@media(min-width:760px){.facts{grid-template-columns:1fr 1fr;gap:22px}}
+.facts .panel p{margin-top:6px}
+
+/* Beta: el formulario */
+.beta .panel{max-width:560px;padding:28px 24px}
+@media(min-width:760px){.beta .panel{padding:36px}}
+.beta h2{color:#fff}
+.beta .panel p.sub{margin-top:8px}
+form{margin-top:22px}
+label{display:block;font-weight:700;font-size:15px;color:var(--p-txt)}
+.row{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px}
+input[type=email]{flex:1 1 220px;min-width:0;font:400 17px/1 var(--sans);padding:14px;border:2px solid var(--ink);background:#fff;color:var(--p-txt);border-radius:0}
+input[type=email]::placeholder{color:#8F92AD}
+.note{font-size:14px;color:var(--p-txt-3);margin-top:12px}
+.msg{margin-top:12px;font-weight:700;display:none}
+.msg.ok{display:block;color:#3C1E8F}
+.msg.bad{display:block;color:var(--br)}
+.gotcha{position:absolute;left:-9999px}
+
+footer{padding:36px 0 48px;font-size:14px;color:var(--txt-3)}
 footer p+p{margin-top:8px}
+footer a{color:var(--txt-2)}
 
-@media (prefers-reduced-motion:no-preference){
-  form.wait button{transition:background .15s}
+@media(prefers-reduced-motion:no-preference){
+  .lang button,.btn{transition:transform .08s,box-shadow .08s}
 }
 </style>
 </head>
@@ -114,18 +143,81 @@ footer p+p{margin-top:8px}
       <button type="button" data-lang="en">English</button>
     </div>
   </header>
+</div>
 
-  <!-- Portada -->
-  <section class="hero narrow" style="margin-inline:0">
-    <p class="kicker" data-t="kicker"></p>
+<!-- Portada -->
+<section class="hero"><div class="wrap grid">
+  <div>
+    <p class="kicker"><span data-t="kicker"></span></p>
     <h1 data-t="h1"></h1>
     <p class="lead" data-t="lead"></p>
+    <div class="cta">
+      <a class="btn vd" href="prototipo/"><span data-t="try"></span></a>
+      <a class="btn" href="#beta"><span data-t="join"></span></a>
+    </div>
+  </div>
+  <div class="phone"><img src="capturas/semana.png" width="780" height="1688" alt="" data-alt="altSemana"></div>
+</div></section>
 
+<!-- Personaje -->
+<section><div class="wrap">
+  <h2 data-t="tierT"></h2>
+  <p class="lead" data-t="tierP"></p>
+  <div class="tiers" id="tiers"></div>
+</div></section>
+
+<!-- Cómo funciona -->
+<section><div class="wrap">
+  <h2 data-t="howT"></h2>
+  <div class="steps">
+    <div class="step">
+      <div class="phone"><img src="capturas/entrada.png" width="780" height="1688" alt="" data-alt="altEntrada" loading="lazy"></div>
+      <p class="n">1</p><h3 data-t="s1t"></h3><p data-t="s1p"></p>
+    </div>
+    <div class="step">
+      <div class="phone"><img src="capturas/cierre.png" width="780" height="1688" alt="" data-alt="altCierre" loading="lazy"></div>
+      <p class="n">2</p><h3 data-t="s2t"></h3><p data-t="s2p"></p>
+    </div>
+    <div class="step">
+      <div class="phone"><img src="capturas/nivel.png" width="780" height="1688" alt="" data-alt="altNivel" loading="lazy"></div>
+      <p class="n">3</p><h3 data-t="s3t"></h3><p data-t="s3p"></p>
+    </div>
+  </div>
+</div></section>
+
+<!-- Temas -->
+<section><div class="wrap">
+  <h2 data-t="themeT"></h2>
+  <p class="lead" data-t="themeP"></p>
+  <div class="themes">
+    <div class="theme"><div class="phone"><img src="capturas/semana.png" width="780" height="1688" alt="" data-alt="altAnime" loading="lazy"></div><b>Anime</b></div>
+    <div class="theme"><div class="phone"><img src="capturas/tema-ceniza.png" width="780" height="1688" alt="" data-alt="altCeniza" loading="lazy"></div><b data-t="ceniza"></b></div>
+    <div class="theme"><div class="phone"><img src="capturas/tema-gym.png" width="780" height="1688" alt="" data-alt="altGym" loading="lazy"></div><b data-t="gym"></b></div>
+  </div>
+  <p class="themes-note" data-t="themeN"></p>
+</div></section>
+
+<!-- Decidido -->
+<section><div class="wrap">
+  <h2 data-t="factsT"></h2>
+  <div class="facts">
+    <div class="panel"><h3 data-t="f1t"></h3><p data-t="f1p"></p></div>
+    <div class="panel"><h3 data-t="f2t"></h3><p data-t="f2p"></p></div>
+    <div class="panel"><h3 data-t="f3t"></h3><p data-t="f3p"></p></div>
+    <div class="panel"><h3 data-t="f4t"></h3><p data-t="f4p"></p></div>
+  </div>
+</div></section>
+
+<!-- Beta -->
+<section class="beta" id="beta"><div class="wrap">
+  <h2 data-t="betaT"></h2>
+  <div class="panel" style="margin-top:24px">
+    <p class="sub" data-t="betaP"></p>
     <form class="wait" id="f1" action="https://formspree.io/f/xdeknkzd" method="POST">
       <label for="email1" data-t="label"></label>
       <div class="row">
         <input type="email" id="email1" name="email" required autocomplete="email" data-ph="ph">
-        <button type="submit" data-t="btn"></button>
+        <button class="btn vd" type="submit"><span data-t="btn"></span></button>
       </div>
       <input type="hidden" name="lang" value="es">
       <input type="hidden" name="de" value="">
@@ -134,134 +226,110 @@ footer p+p{margin-top:8px}
       <p class="note" data-t="note"></p>
       <p class="msg" role="status"></p>
     </form>
-  </section>
-
-  <div class="orn" aria-hidden="true"><i></i></div>
-
-  <!-- Tres pantallas -->
-  <section class="three">
-    <article>
-      <div class="shot"><img src="capturas/semana.png" width="780" height="1688" alt="" data-alt="alt1"></div>
-      <h2 data-t="t1"></h2>
-      <p data-t="p1"></p>
-    </article>
-    <article>
-      <div class="shot"><img src="capturas/personaje.png" width="780" height="1688" alt="" data-alt="alt2" loading="lazy"></div>
-      <h2 data-t="t2"></h2>
-      <p data-t="p2"></p>
-    </article>
-    <article>
-      <div class="shot"><img src="capturas/logros.png" width="780" height="1688" alt="" data-alt="alt3" loading="lazy"></div>
-      <h2 data-t="t3"></h2>
-      <p data-t="p3"></p>
-    </article>
-  </section>
-
-  <div class="orn" aria-hidden="true"><i></i></div>
-
-  <!-- Decidido -->
-  <section class="facts">
-    <div><h3 data-t="f1t"></h3><p data-t="f1p"></p></div>
-    <div><h3 data-t="f2t"></h3><p data-t="f2p"></p></div>
-    <div><h3 data-t="f3t"></h3><p data-t="f3p"></p></div>
-    <div><h3 data-t="f4t"></h3><p data-t="f4p"></p></div>
-  </section>
-</div>
-
-<!-- Cierre -->
-<section class="again">
-  <div class="wrap">
-    <div class="narrow" style="margin-inline:0">
-      <h2 data-t="againt"></h2>
-      <p class="lead" style="color:var(--txt-2);margin-top:12px" data-t="againp"></p>
-      <form class="wait" id="f2" action="https://formspree.io/f/xdeknkzd" method="POST">
-        <label for="email2" data-t="label"></label>
-        <div class="row">
-          <input type="email" id="email2" name="email" required autocomplete="email" data-ph="ph">
-          <button type="submit" data-t="btn"></button>
-        </div>
-        <input type="hidden" name="lang" value="es">
-        <input type="hidden" name="de" value="">
-        <input type="hidden" name="_subject" value="WeekGame: nuevo apuntado">
-        <label class="gotcha" aria-hidden="true">No rellenar <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label>
-        <p class="note" data-t="note"></p>
-        <p class="msg" role="status"></p>
-      </form>
-    </div>
   </div>
-</section>
+</div></section>
 
-<footer>
-  <div class="wrap"><div class="narrow">
-    <p data-t="foot1"></p>
-    <p data-t="foot2"></p>
-  </div></div>
-</footer>
+<footer><div class="wrap">
+  <p data-t="foot1"></p>
+  <p data-t="foot2"></p>
+</div></footer>
 
 <script>
 // --- Textos en los dos idiomas ---
 const T = {
   es: {
-    kicker: 'Lista de espera abierta',
-    h1: 'Tu entrenamiento, como un juego de rol por semanas.',
-    lead: 'Define tus objetivos semanales o elige una plantilla, marca las sesiones que haces y gana experiencia al cerrar la semana. La dificultad sube cuando tú lo decides. Sin rachas, sin castigos, sin brillos.',
-    label: 'Avísame cuando abra la beta',
+    kicker: 'Beta cerrada. Lista de espera abierta.',
+    h1: 'Tu entrenamiento es un juego. Sube de nivel cada semana.',
+    lead: 'Te pones objetivos por semana (3 sesiones, 5 km, 2 lecturas…), apuntas lo que haces en tres toques y la semana entera sube tu nivel. Si no cumples, se nota. Como en la vida.',
+    try: 'Probar el prototipo',
+    join: 'Apuntarme a la beta',
+    altSemana: 'Pantalla Semana: personaje con anillo de experiencia, misión de la semana y bloques con su progreso',
+    tierT: 'Tu personaje sube de grado contigo.',
+    tierP: 'Cada diez niveles cambia de aspecto. Empiezas sin talento y acabas, con meses de semanas cumplidas, siendo el más fuerte.',
+    tiers: [['Grado 4', 'niveles 0 a 9'], ['Grado 3', 'niveles 10 a 19'], ['Grado 2', 'niveles 20 a 29'], ['Grado 1', 'niveles 30 a 39'], ['Grado especial', 'niveles 40 a 49'], ['El más fuerte', 'niveles 50 a 59']],
+    howT: 'Así funciona una semana.',
+    s1t: 'Apuntas lo de hoy',
+    s1p: 'Al abrir la app te pregunta qué has hecho. Tocas los bloques que toquen y listo: hecha, intentada o nada.',
+    s2t: 'La semana cierra y suma',
+    s2p: 'El domingo ves lo hecho, lo intentado y lo que faltó, y cuánto vale cada cosa. Si una semana te salió fácil, subes un escalón en ese bloque.',
+    s3t: 'Subes de nivel. O bajas.',
+    s3p: 'Lo que dejas sin hacer resta. No hay racha que se rompe ni contador a cero: una semana floja solo te frena un poco.',
+    altEntrada: 'Pantalla de entrada: qué has hecho hoy, con los seis bloques para tocar',
+    altCierre: 'Cierre de la semana: hechas, a medias y sin hacer, con los puntos de cada bloque',
+    altNivel: 'Ventana de subida de nivel: nivel 8, Guardián de la escuela',
+    themeT: 'Elige cómo se ve tu juego.',
+    themeP: 'Mismas reglas, otro mundo: cambia el personaje, los títulos, los colores y hasta cómo se llama la experiencia.',
+    ceniza: 'Ceniza',
+    gym: 'Gimnasio',
+    themeN: 'Y más temas en camino.',
+    altAnime: 'Tema Anime: tinta y papel sobre negro violeta',
+    altCeniza: 'Tema Ceniza: ascua sobre ceniza, fantasía sombría',
+    altGym: 'Tema Gimnasio: hierro, tiza y amarillo',
+    factsT: 'Lo que ya está decidido.',
+    f1t: 'Sin rachas',
+    f1p: 'Una semana floja resta algo de experiencia y ya. No hay contador a cero ni fuego que se apaga.',
+    f2t: 'Tus objetivos o una plantilla',
+    f2p: 'Fuerza, correr, movilidad, pasos, lectura, meditación: cada bloque es un objetivo semanal que defines tú. Si prefieres empezar rápido, hay plantillas listas.',
+    f3t: 'Logros que son tuyos',
+    f3p: 'Los acumulados (flexiones, kilómetros, libros) pasan de bronce a oro. Los personales los creas tú: una meta, un reto, una fecha.',
+    f4t: 'Reta a tus amigos',
+    f4p: 'Comparte tu semana y lánzales retos: mismo objetivo, cada uno a su nivel.',
+    betaT: 'Sé de los primeros en jugar.',
+    betaP: 'Déjanos tu correo y te avisamos cuando abra la beta. Mientras, el prototipo es tuyo.',
+    label: 'Tu correo',
     btn: 'Apuntarme',
     note: 'Solo para avisarte. Sin spam; te das de baja respondiendo a cualquier correo.',
     ok: 'Apuntado. Te avisaremos cuando abra la beta.',
     bad: 'No se ha podido enviar. Prueba otra vez en un momento.',
-    t1: 'Tus objetivos, tu semana.',
-    p1: 'Cada bloque es un objetivo semanal que defines tú: fuerza, correr, movilidad, pasos, lectura, meditación, lo que quieras. Si prefieres empezar rápido, hay plantillas listas para distintos objetivos, y la app te propone otros nuevos cuando llevas semanas cumpliendo.',
-    t2: 'La dificultad sube cuando tú lo decides.',
-    p2: 'Cada bloque tiene escalones: cuando una semana te sale fácil, subes uno. Programa sesiones de evaluación para medir dónde estás. Los niveles van por tramos con título propio, de siervo a leyenda.',
-    t3: 'Logros que son tuyos.',
-    p3: 'Los progresivos (flexiones acumuladas, kilómetros, libros) pasan de bronce a oro. Los personales los creas tú: una meta, un reto, una fecha. Todos valen puntos.',
-    alt1: 'Pantalla Semana del prototipo: anillo de experiencia, misión de la semana y bloques con su progreso',
-    alt2: 'Pantalla Personaje: emblema, título Aprendiz de herrero, nivel 7 y tramos del título',
-    alt3: 'Pantalla Logros: flexiones, dominadas y kilómetros acumulados con medalla de bronce o plata',
-    f1t: 'Sin rachas',
-    f1p: 'Una semana floja resta algo de experiencia y ya. No hay contador a cero ni fuego que se apaga.',
-    f2t: 'Totalmente personalizable',
-    f2p: 'Bloques, objetivos, escalones y logros a tu medida. Y si no quieres configurar nada, plantillas y diseños listos para usar.',
-    f3t: 'Reta a tus amigos',
-    f3p: 'Comparte tu progreso y lánzales retos: mismo objetivo, cada uno a su nivel.',
-    f4t: 'Estética sobria',
-    f4p: 'Dos colores por tema, sin dorados ni destellos. Varios temas para elegir; el que ves es Cobalto.',
-    againt: 'Sé de los primeros en probarla.',
-    againp: 'Déjanos tu correo y te avisaremos cuando abra la beta.',
     foot1: 'WeekGame está en desarrollo. Los apuntados a la lista probarán la beta antes que nadie.',
     foot2: 'Privacidad: el correo se guarda en Formspree y solo se usa para avisarte del lanzamiento. Para borrarlo, responde a cualquier correo.',
     ph: 'tu@correo.com',
     sub: 'WeekGame: nuevo apuntado',
   },
   en: {
-    kicker: 'Waiting list open',
-    h1: 'Your training, played as a week-by-week RPG.',
-    lead: 'Set your own weekly goals or pick a template, log the sessions you do and earn experience when you close the week. Difficulty goes up when you decide. No streaks, no punishment, no glitter.',
-    label: 'Tell me when the beta opens',
+    kicker: 'Closed beta. Waiting list open.',
+    h1: 'Your training is a game. Level up every week.',
+    lead: 'Set weekly goals (3 sessions, 5 km, 2 reads…), log what you do in three taps and the whole week raises your level. Miss it and it shows. Like in real life.',
+    try: 'Try the prototype',
+    join: 'Join the beta list',
+    altSemana: 'Week screen: character with experience ring, weekly mission and blocks with their progress',
+    tierT: 'Your character levels up with you.',
+    tierP: 'Every ten levels it changes. You start with no talent and, after months of weeks done, you end up the strongest.',
+    tiers: [['Grade 4', 'levels 0 to 9'], ['Grade 3', 'levels 10 to 19'], ['Grade 2', 'levels 20 to 29'], ['Grade 1', 'levels 30 to 39'], ['Special grade', 'levels 40 to 49'], ['The strongest', 'levels 50 to 59']],
+    howT: 'This is how a week goes.',
+    s1t: 'Log today',
+    s1p: 'When you open the app it asks what you did. Tap the blocks that apply and done: completed, attempted or nothing.',
+    s2t: 'The week closes and adds up',
+    s2p: 'On Sunday you see what you did, half did and skipped, and what each is worth. If a week felt easy, you climb a step in that block.',
+    s3t: 'You level up. Or down.',
+    s3p: 'What you leave undone subtracts. No streak to break, no counter back to zero: a weak week only slows you down a little.',
+    altEntrada: 'Entry screen: what did you do today, with the six blocks to tap',
+    altCierre: 'Week close: completed, half done and skipped, with the points for each block',
+    altNivel: 'Level-up window: level 8, School guardian',
+    themeT: 'Pick how your game looks.',
+    themeP: 'Same rules, another world: the character, the titles, the colours and even what experience is called all change.',
+    ceniza: 'Ash',
+    gym: 'Gym',
+    themeN: 'More themes on the way.',
+    altAnime: 'Anime theme: ink and paper on violet black',
+    altCeniza: 'Ash theme: ember on ash, dark fantasy',
+    altGym: 'Gym theme: iron, chalk and yellow',
+    factsT: 'Already decided.',
+    f1t: 'No streaks',
+    f1p: 'A weak week costs a bit of experience and that is it. No counter back to zero, no flame going out.',
+    f2t: 'Your goals or a template',
+    f2p: 'Strength, running, mobility, steps, reading, meditation: each block is a weekly goal you define. If you would rather start fast, templates are ready.',
+    f3t: 'Achievements that are yours',
+    f3p: 'Accumulated ones (push-ups, kilometres, books) go from bronze to gold. Personal ones you create: a goal, a challenge, a date.',
+    f4t: 'Challenge your friends',
+    f4p: 'Share your week and send them challenges: same goal, each at their own level.',
+    betaT: 'Be among the first to play.',
+    betaP: 'Leave your email and we will tell you when the beta opens. Until then, the prototype is yours.',
+    label: 'Your email',
     btn: 'Join the list',
     note: 'Just a heads-up. No spam; reply to any email to unsubscribe.',
     ok: 'You are on the list. We will let you know when the beta opens.',
     bad: 'Could not send. Please try again in a moment.',
-    t1: 'Your goals, your week.',
-    p1: 'Each block is a weekly goal you define: strength, running, mobility, steps, reading, meditation, anything. If you would rather start fast, there are ready-made templates for different goals, and the app suggests new ones once you have been hitting yours for a few weeks.',
-    t2: 'Difficulty goes up when you say so.',
-    p2: 'Each block has steps: when a week feels easy, you climb one. Schedule assessment sessions to measure where you stand. Levels come in tiers with their own title, from serf to legend.',
-    t3: 'Achievements that are yours.',
-    p3: 'Progressive ones (push-ups accumulated, kilometres, books) go from bronze to gold. Personal ones you create yourself: a goal, a challenge, a date. All of them earn points.',
-    alt1: 'Week screen of the prototype: experience ring, weekly mission and blocks with their progress',
-    alt2: 'Character screen: emblem, title, level 7 and title tiers',
-    alt3: 'Achievements screen: push-ups, pull-ups and kilometres with bronze or silver medals',
-    f1t: 'No streaks',
-    f1p: 'A weak week costs a bit of experience and that is it. No counter back to zero, no flame going out.',
-    f2t: 'Fully customisable',
-    f2p: 'Blocks, goals, steps and achievements your way. And if you would rather not set anything up, templates and themes ready to use.',
-    f3t: 'Challenge your friends',
-    f3p: 'Share your progress and send them challenges: same goal, each at their own level.',
-    f4t: 'Sober look',
-    f4p: 'Two colours per theme, no gold, no sparkle. Several themes to pick from; the one you see is Cobalt.',
-    againt: 'Be among the first to try it.',
-    againp: 'Leave your email and we will let you know when the beta opens.',
     foot1: 'WeekGame is in development. People on the list will try the beta before anyone else.',
     foot2: 'Privacy: your email is stored at Formspree and only used to tell you about the launch. Reply to any email to have it deleted.',
     ph: 'you@email.com',
@@ -273,7 +341,7 @@ const T = {
 let lang = 'es';
 try {
   const q = new URLSearchParams(location.search).get('lang');
-  const guardado = localStorage.getItem('wq-lang');
+  const guardado = localStorage.getItem('wg-lang');
   lang = q || guardado || ((navigator.language || 'es').toLowerCase().startsWith('es') ? 'es' : 'en');
 } catch { lang = 'es'; }
 if (!T[lang]) lang = 'es';
@@ -282,15 +350,16 @@ function aplicar(l) {
   lang = l;
   const t = T[l];
   document.documentElement.lang = l;
-  document.title = 'WeekGame';
   document.querySelectorAll('[data-t]').forEach((el) => { el.textContent = t[el.dataset.t]; });
   document.querySelectorAll('[data-ph]').forEach((el) => { el.placeholder = t[el.dataset.ph]; });
   document.querySelectorAll('[data-alt]').forEach((el) => { el.alt = t[el.dataset.alt]; });
   document.querySelectorAll('input[name=lang]').forEach((el) => { el.value = l; });
   document.querySelectorAll('input[name=_subject]').forEach((el) => { el.value = t.sub; });
   document.querySelectorAll('.lang button').forEach((b) => b.classList.toggle('on', b.dataset.lang === l));
+  document.getElementById('tiers').innerHTML = t.tiers.map((x, i) =>
+    `<div class="tier"><div class="pic"><img src="prototipo/img/an-${i}.png" width="320" height="320" alt="" loading="lazy"></div><b>${x[0]}</b><small>${x[1]}</small></div>`).join('');
   const url = new URL(location.href); url.searchParams.set('lang', l); history.replaceState(null, '', url);
-  try { localStorage.setItem('wq-lang', l); } catch {}
+  try { localStorage.setItem('wg-lang', l); } catch {}
 }
 document.querySelector('.lang').addEventListener('click', (e) => {
   const b = e.target.closest('[data-lang]'); if (b) aplicar(b.dataset.lang);
